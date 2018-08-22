@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    //
+    protected $fillable = [
+        'body', 'task_id', 'is_correct', 'status'
+    ];
 }

@@ -14,6 +14,26 @@
 /*Route::get('/', function () {
     return view('welcome');
 });*/
+Route::group(['namespace' => 'Admin', /*'middleware'=>'admin'*/], function () {
+
+    Route::get('/admin/home', 'HomeController@index')->name('admin.home');
+    Route::resource('/admin/answers', 'AnswerController');
+    Route::resource('/admin/categories', 'CategoryController');
+    Route::resource('/admin/levels', 'LevelController');
+    Route::resource('/admin/tasks', 'TaskController');
+    Route::resource('/admin/users', 'UserController');
+
+    /*Route::resource('/admin/categories', 'CategoriesController');
+    Route::delete('/admin/image/delete/{id}', 'ProductController@imgDestroy')->name('imgDestroy');
+    Route::post('/admin/image/title/{id}', 'ProductController@mkTitle')->name('mkTitle');
+    Route::resource('/admin/products', 'ProductController');
+    Route::resource('/admin/users', 'UserController');
+    Route::resource('/admin/subscr', 'SubscrController');
+    Route::resource('/admin/orders', 'OrderController');
+    Route::post('/orderstatus', 'OrderController@status')->name('orderStatus');
+    Route::post('/getnew', 'OrderController@getnew')->name('getnew');*/
+});
+
 
 Route::group(['namespace' => 'User'], function () {
 
