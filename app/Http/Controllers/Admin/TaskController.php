@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
+use App\Models\Level;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +17,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::all();
+        //dd($tasks);
+
+
+        return view('admin.tasks.show', compact('tasks'));
     }
 
     /**
@@ -24,7 +31,11 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $levels = Level::all();
+
+        $categories = Category::all();
+
+        return view('admin.tasks.add', compact('levels', 'categories'));
     }
 
     /**
@@ -35,7 +46,12 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'body' => 'required',
+        ]);
+
+        $task = Task::add($request->all());
+        return redirect(route('tasks.index'))->with('status', 'Тест успешно сохранен');
     }
 
     /**

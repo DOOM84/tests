@@ -24,4 +24,20 @@ class Task extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    public static function add($request)
+    {
+        $task = new static;
+        if(!isset($request['status'])) $request['status'] = 0;
+        $task->fill($request);
+        //$player->champ_id = $champId;
+        $task->save();
+        /*$detail = new player_detail;
+        $detail->fill($request);
+        $detail->heightweight = $request['height'] . '/' . $request['weight'];
+        $player->player_detail()->save($detail);*/
+
+        return $task;
+
+    }
 }
