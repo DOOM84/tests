@@ -17,8 +17,8 @@ class CreateAnswersTable extends Migration
             $table->increments('id');
             $table->text('body');
             $table->integer('task_id');
-            $table->tinyInteger('is_correct');
-            $table->tinyInteger('status')->nullable();
+            $table->tinyInteger('is_correct')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

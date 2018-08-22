@@ -46,11 +46,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'body' => 'required',
         ]);
 
+        //dd($request->answer);
+
         $task = Task::add($request->all());
+
+        foreach ($request->answer as $answer) {
+            if(empty($answer['body'])) continue;
+            $task->answers()->create($answer);
+        }
+
         return redirect(route('tasks.index'))->with('status', 'Тест успешно сохранен');
     }
 
@@ -96,6 +105,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        $task->answers()->delete();
+        $task->delete();
+        return redirect(route('tasks.index'))->with('status', 'Тест успешно удален');
     }
 }

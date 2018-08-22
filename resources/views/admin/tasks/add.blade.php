@@ -10,6 +10,20 @@
                 <label for="body">Текст задания</label>
                 <textarea class="form-control" name="body" id="body" rows="3"></textarea>
             </div>
+            <div class="form-group text-right">
+                <a href="#" class="btn btn-info" id="addAnswer">Добавить еще поле для ответа</a>
+            </div>
+            <div id="answers">
+                @for( $i = 1; $i <= 3; $i++)
+                    <div class="form-group">
+                        <label for="body">Ответ:</label>
+                        <textarea class="form-control" data-info="answer" name="answer[{{$i}}][body]" id="body" rows="3"></textarea>
+                        <label> Правильный ответ
+                            <input name="answer[{{$i}}][is_correct]" type="checkbox" value="1">
+                        </label>
+                    </div>
+                    @endfor
+            </div>
             <div class="form-group">
                 <label for="description">Описание (опционально)</label>
                 <textarea class="form-control" name="description" id="description" rows="3"></textarea>
