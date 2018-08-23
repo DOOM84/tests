@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        //dd($tasks);
+
+
+        return view('admin.categories.show', compact('categories'));
     }
 
     /**
@@ -24,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.add');
     }
 
     /**
@@ -35,7 +40,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+        $category = Category::add($request->all());
+
+        return redirect(route('categories.index'))->with('status', 'Категорию успешно сохранена');
     }
 
     /**
@@ -57,7 +67,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -69,7 +80,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+        $category = Category::find($id);
+        $category->edit($request->all());
+
+        return redirect(route('categories.index'))->with('status', 'Категория успешно изменена');
     }
 
     /**
@@ -80,6 +97,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->tasks()->each(function ($task) {
+            $task->category()->dissociate();
+            $task->save();
+        });
+        $category->delete();
+        return redirect()->back()->with('status', 'Категория успешно удалена');
     }
 }

@@ -28,16 +28,18 @@ class Task extends Model
     public static function add($request)
     {
         $task = new static;
-        if(!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['status'])) $request['status'] = 0;
         $task->fill($request);
-        //$player->champ_id = $champId;
         $task->save();
-        /*$detail = new player_detail;
-        $detail->fill($request);
-        $detail->heightweight = $request['height'] . '/' . $request['weight'];
-        $player->player_detail()->save($detail);*/
-
         return $task;
+
+    }
+
+    public function edit($request)
+    {
+        if (!isset($request['status'])) $request['status'] = 0;
+        $this->fill($request);
+        $this->save();
 
     }
 }

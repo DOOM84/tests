@@ -3,7 +3,7 @@
 @section('body')
     <div class="container text-center">
         @include('includes.messages')
-        <a class="btn btn-success" href="{{route('tasks.create')}}">Добавить тест</a>
+        <a class="btn btn-success" href="{{route('categories.create')}}">Добавить категорию</a>
     </div>
     <div class="table-responsive">
 
@@ -12,29 +12,23 @@
             <thead>
             <tr>
                 <th>№</th>
-                <th>Текст</th>
+                <th>Название</th>
                 <th>Описание</th>
-                <th>Уровень</th>
-                <th>Категория</th>
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>
             </tr>
             </thead>
             <tbody>
-            @forelse($tasks as $task)
+            @forelse($categories as $category)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$task->body}}</td>
-                    <td>{{$task->description}}</td>
+                    <td>{{$category->name}}</td>
+                    <td>{{$category->description}}</td>
+                    <td>{{ $category->status ? 'Да' : 'Нет' }}</td>
+                    <td><a class="btn btn-primary" href="{{route('categories.edit', $category->id)}}">Изменить</a></td>
                     <td>
-                        {{ (isset($task->level->level)) ? $task->level->level : 'Нет' }}
-                    </td>
-                    <td> {{ (isset($task->category->name)) ? $task->category->name : 'Нет' }} </td>
-                    <td>{{ $task->status ? 'Да' : 'Нет' }}</td>
-                    <td><a class="btn btn-primary" href="{{route('tasks.edit', $task->id)}}">Изменить</a></td>
-                    <td>
-                        <form id="delete-form-{{$task->id}}" action="{{route('tasks.destroy', $task->id)}}"
+                        <form id="delete-form-{{$category->id}}" action="{{route('categories.destroy', $category->id)}}"
                               method="post" style="display:none">
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
@@ -42,7 +36,7 @@
                         <a class="btn btn-warning" href="" onclick="
                                 if(confirm('Вы уверены?')){
                                 event.preventDefault();
-                                document.getElementById('delete-form-{{$task->id}}').submit();
+                                document.getElementById('delete-form-{{$category->id}}').submit();
                                 }else{
                                 event.preventDefault();
                                 }">Удалить
@@ -50,16 +44,14 @@
 
                     </td>
                 </tr>
-            @empty
+                @empty
             @endforelse
             </tbody>
             <tfoot>
             <tr>
                 <th>№</th>
-                <th>Текст</th>
+                <th>Название</th>
                 <th>Описание</th>
-                <th>Уровень</th>
-                <th>Категория</th>
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>

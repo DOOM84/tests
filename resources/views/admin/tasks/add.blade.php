@@ -52,7 +52,9 @@
                     <input name="status" type="checkbox" value="1"> Опубликовано
                 </label>
             </div>
-            <button type="submit" class="btn btn-success">Далее</button>
+            <div class="form-group text-right">
+            <button type="submit" class="btn btn-success">Сохранить тест</button>
+            </div>
         </form>
     </div>
 @endsection

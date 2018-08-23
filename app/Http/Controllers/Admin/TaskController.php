@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Level;
 use App\Models\Task;
@@ -41,7 +42,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -50,13 +51,10 @@ class TaskController extends Controller
         $this->validate($request, [
             'body' => 'required',
         ]);
-
-        //dd($request->answer);
-
         $task = Task::add($request->all());
 
         foreach ($request->answer as $answer) {
-            if(empty($answer['body'])) continue;
+            if (empty($answer['body'])) continue;
             $task->answers()->create($answer);
         }
 
@@ -66,7 +64,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,30 +75,45 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $task = Task::find($id);
+        $levels = Level::all();
+
+        $categories = Category::all();
+
+        return view('admin.tasks.edit', compact('levels', 'categories', 'task'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'body' => 'required',
+        ]);
+        $task = Task::find($id);
+        $task->edit($request->all());
+        $task->answers()->delete();
+        foreach ($request->answer as $answer) {
+            if (empty($answer['body'])) continue;
+            $task->answers()->create($answer);
+        }
+        return redirect(route('tasks.index'))->with('status', 'Тест успешно изменен');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -109,5 +122,12 @@ class TaskController extends Controller
         $task->answers()->delete();
         $task->delete();
         return redirect(route('tasks.index'))->with('status', 'Тест успешно удален');
+    }
+
+    public function deleteAnswer($id)
+    {
+        $answer = Answer::find($id);
+        $answer->delete();
+        return redirect()->back()->with('status', 'Ответ успешно удален');
     }
 }

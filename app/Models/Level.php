@@ -20,4 +20,18 @@ class Level extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public static function add($request)
+    {
+        $level = new static;
+        $level->fill($request);
+        $level->save();
+        return $level;
+    }
+
+    public function edit($request)
+    {
+        $this->fill($request);
+        $this->save();
+    }
 }

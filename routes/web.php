@@ -22,6 +22,8 @@ Route::group(['namespace' => 'Admin', /*'middleware'=>'admin'*/], function () {
     Route::resource('/admin/levels', 'LevelController');
     Route::resource('/admin/tasks', 'TaskController');
     Route::resource('/admin/users', 'UserController');
+    Route::get('/admin/deleteAnswer/{id}', 'TaskController@deleteAnswer')->name('admin.deleteAnswer');
+
 
     /*Route::resource('/admin/categories', 'CategoriesController');
     Route::delete('/admin/image/delete/{id}', 'ProductController@imgDestroy')->name('imgDestroy');
