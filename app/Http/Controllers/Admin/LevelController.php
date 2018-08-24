@@ -41,6 +41,7 @@ class LevelController extends Controller
         $this->validate($request, [
             'level' => 'required',
         ]);
+        //dd($request->all());
         $level = Level::add($request->all());
 
         return redirect(route('levels.index'))->with('status', 'Уровень успешно сохранен');
@@ -100,6 +101,7 @@ class LevelController extends Controller
             $task->level()->dissociate();
             $task->save();
         });
+        Level::makeOrderDelete($level->ordered);
         $level->delete();
         return redirect()->back()->with('status', 'Уровень успешно удален');
     }

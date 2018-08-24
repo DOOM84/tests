@@ -19,6 +19,16 @@
                 <textarea class="form-control" name="description" id="description"
                           rows="3">{{$level->description}}</textarea>
             </div>
+            <div class="form-group">
+                <label for="ordered">Порядок возрастания</label>
+                <select id="ordered" name="ordered" class="form-control">
+                    @for ($i = 1; $i <= \App\Models\Level::all()->max('ordered'); $i++)
+                        <option value="{{$i}}" @if($i == $level->ordered) selected @endif>
+                            {{$i}}
+                        </option>
+                    @endfor
+                </select>
+            </div>
             <div class="form-group text-right">
                 <button type="submit" class="btn btn-success">Сохранить уровень</button>
             </div>

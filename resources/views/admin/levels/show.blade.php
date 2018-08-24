@@ -14,6 +14,7 @@
                 <th>№</th>
                 <th>Название</th>
                 <th>Описание</th>
+                <th>Порядок возрастания</th>
                 <th>Изменить</th>
                 <th>Удалить</th>
             </tr>
@@ -24,6 +25,7 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$level->level}}</td>
                     <td>{{$level->description}}</td>
+                    <td>{{$level->ordered}}</td>
                     <td><a class="btn btn-primary" href="{{route('levels.edit', $level->id)}}">Изменить</a></td>
                     <td>
                         <form id="delete-form-{{$level->id}}" action="{{route('levels.destroy', $level->id)}}"
@@ -42,7 +44,7 @@
 
                     </td>
                 </tr>
-                @empty
+            @empty
             @endforelse
             </tbody>
             <tfoot>
@@ -50,6 +52,7 @@
                 <th>№</th>
                 <th>Название</th>
                 <th>Описание</th>
+                <th>Порядок возрастания</th>
                 <th>Изменить</th>
                 <th>Удалить</th>
             </tr>

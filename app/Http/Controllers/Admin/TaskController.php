@@ -51,6 +51,7 @@ class TaskController extends Controller
         $this->validate($request, [
             'body' => 'required',
         ]);
+        //dd($request->all());
         $task = Task::add($request->all());
 
         foreach ($request->answer as $answer) {

@@ -42,7 +42,7 @@
                 <label for="level">Уровень</label>
                 <select id="level" name="level_id" class="form-control">
                     @foreach($levels as $level)
-                        <option value="{{$level->level}}">{{$level->level}}</option>
+                        <option value="{{$level->id}}">{{$level->level}}</option>
                     @endforeach
                 </select>
             </div>

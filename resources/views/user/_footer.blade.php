@@ -43,9 +43,9 @@
 <script src="{{asset('js/holder.min.js')}}"></script>
 <script src="{{asset('js/offcanvas.js')}}"></script>
 <script>
-    var cnt;
+    //var cnt;
     $(document).ready(function () {
-        $( "[type=checkbox]" ).change(function () {
+        /*$( "[type=checkbox]" ).change(function () {
             var maxAllowed = 2;
             cnt = $("input[type=checkbox]:checked").length;
             if (cnt > maxAllowed) {
@@ -54,13 +54,14 @@
             }
 
 
-        });
+        });*/
 
         $( "#sendRes" ).click(function() {
             confirm( "Are you sure?" );
+            var cnt = $("input[type=radio]:checked");
             var answ = [];
-            for (var i = 0; i < window.cnt; i++) {
-                answ[i] = $("input[type=checkbox]:checked")[i].value;
+            for (var i = 0; i < cnt.length; i++) {
+                answ[i] = cnt[i].value;
             }
             console.log(answ);
         });
