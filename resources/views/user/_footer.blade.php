@@ -42,28 +42,4 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/holder.min.js')}}"></script>
 <script src="{{asset('js/offcanvas.js')}}"></script>
-<script>
-    //var cnt;
-    $(document).ready(function () {
-        /*$( "[type=checkbox]" ).change(function () {
-            var maxAllowed = 2;
-            cnt = $("input[type=checkbox]:checked").length;
-            if (cnt > maxAllowed) {
-                $(this).prop("checked", "");
-                alert('You can select maximum ' + maxAllowed + ' option!');
-            }
 
-
-        });*/
-
-        $( "#sendRes" ).click(function() {
-            confirm( "Are you sure?" );
-            var cnt = $("input[type=radio]:checked");
-            var answ = [];
-            for (var i = 0; i < cnt.length; i++) {
-                answ[i] = cnt[i].value;
-            }
-            console.log(answ);
-        });
-    });
-</script>

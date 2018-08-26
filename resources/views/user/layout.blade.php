@@ -24,5 +24,7 @@
 
 
 @include('user._footer')
+@section('scriptSection')
+@show
 </body>
 </html>

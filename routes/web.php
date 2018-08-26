@@ -40,7 +40,8 @@ Route::group(['namespace' => 'Admin', /*'middleware'=>'admin'*/], function () {
 Route::group(['namespace' => 'User'], function () {
 
     Route::get('/', 'HomeController@index')->name('user.index');
-    Route::get('/tasks/{lev?}', 'TaskController@index')->name('user.tasks');
+    Route::get('/tasks/', 'TaskController@index')->name('user.tasks')->middleware('restrictToGuest');
+    Route::post('/getResult', 'TaskController@getResult')->name('getResult')->middleware('restrictToGuest');;
     /*Route::get('/about', 'AboutController@index')->name('about');
     Route::any('/category/{category}', 'CategoryController@index')->name('category');
     Route::get('/cooperation', 'CooperationController@index')->name('cooperation');
