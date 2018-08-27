@@ -69,11 +69,10 @@
                             "<div class=\"my-3 p-3 bg-white rounded shadow-sm text-center\">\n" +
                             contin +
                             "</div>");
-                        $(document).ready(function () {
+
                             $('html, body').animate({
                                 scrollTop: $("#mainWin").offset().top
-                            }, 500)
-                        });
+                            }, 500);
                     }
                 });
             });

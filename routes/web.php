@@ -67,4 +67,4 @@ Route::group(['namespace' => 'User'], function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'User\HomeController@index')->name('home');
