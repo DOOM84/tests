@@ -3,11 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
-class RestrictAccess
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,10 +16,10 @@ class RestrictAccess
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()){
-            return $next($request);
-        }
-        Session::put('url.intended', URL::current());
-        return redirect('/login');
+       if (Auth::check() && Auth::user()->is_admin){
+           return $next($request);
+       }
+       return abort(404);
+
     }
 }

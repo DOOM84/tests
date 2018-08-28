@@ -1,4 +1,5 @@
 @extends('admin.layout')
+@section('title', 'Add task')
 
 @section('body')
     <div class="table-responsive">

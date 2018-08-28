@@ -1,4 +1,5 @@
 @extends('admin.layout')
+@section('title', 'Levels')
 
 @section('body')
     <div class="container text-center">

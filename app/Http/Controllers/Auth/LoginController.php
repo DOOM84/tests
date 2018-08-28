@@ -50,4 +50,19 @@ class LoginController extends Controller
             $this->credentials($request), $request->filled('remember')
         );
     }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($request->session()->has('url.intended')) {
+            return $this->authenticated($request, $this->guard()->user())
+                ?: redirect()->intended(session()->get('url.intended'));
+        }
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
+    }
+
 }

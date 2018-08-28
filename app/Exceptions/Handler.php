@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use BadMethodCallException;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +50,51 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ModelNotFoundException) {
+
+            return response(view('404'), '404');
+
+        }
+
+        if ($exception instanceof BadMethodCallException) {
+
+            return response(view('404'), '404');
+
+        }
+
+
+        if ($exception instanceof AuthorizationException) {
+            return response(view('404'), '404');
+        }
+
+        if ($this->isHttpException($exception)) {
+
+            switch ($exception->getStatusCode()) {
+
+                case 403:
+
+                    return response(view('404'), '404');
+
+                    break;
+
+                case 404:
+
+                    return response(view('404'), '404');
+
+                    break;
+
+                case 500:
+
+                    return response(view('404'), '404');
+
+                    break;
+
+                default:
+                    return $this->renderHttpException($exception);
+                    break;
+
+            }
+        }
         return parent::render($request, $exception);
     }
 }

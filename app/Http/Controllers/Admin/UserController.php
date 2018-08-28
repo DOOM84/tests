@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        View::share(['page_name_active' => 'users']);
-    }
+
     /**
      * Display a listing of the resource.
      *
