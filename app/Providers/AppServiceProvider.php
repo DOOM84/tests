@@ -14,6 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /*\DB::listen(function ($query){
+            \Log::info($query->sql, $query->bindings);
+        });*/
+
         Blade::directive('set', function ($expression) {
             list($name, $val) = explode(',', $expression);
             return "<?php {$name} = {$val}; ?>";

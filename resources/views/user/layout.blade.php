@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="">
 
-    <title>Welcome to our test system!</title>
+    <title>{{config('app.name')}} — @yield('title')</title>
 
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <link href="{{asset('css/offcanvas.css')}}" rel="stylesheet">

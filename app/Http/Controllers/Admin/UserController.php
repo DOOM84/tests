@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('level')->get();
 
         return view('admin.users.show', compact('users'));
     }

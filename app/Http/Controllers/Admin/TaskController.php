@@ -20,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::with('category')->with('level')->get();
         //dd($tasks);
 
 

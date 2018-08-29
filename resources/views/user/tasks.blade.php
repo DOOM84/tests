@@ -1,4 +1,5 @@
 @extends('user.layout')
+@section('title', 'Level: '.$level->level)
 @section('content')
 
 <main id="mainWin" role="main" class="container">
