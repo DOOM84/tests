@@ -34,7 +34,7 @@
         //var cnt;
         $(document).ready(function () {
             $( "#sendRes" ).click(function() {
-                confirm( "Are you sure?" );
+                if(!confirm( "Are you sure?" )) return false;
                 var cnt = $("input[type=radio]:checked");
                 var answ = [];
                 for (var i = 0; i < cnt.length; i++) {

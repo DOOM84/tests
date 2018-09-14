@@ -1,10 +1,10 @@
 @extends('admin.layout')
-@section('title', 'Tasks')
+@section('title', 'Categories')
 
 @section('body')
     <div class="container text-center">
         @include('includes.messages')
-        <a class="btn btn-success" href="{{route('tasks.create')}}">Добавить тест</a>
+        <a class="btn btn-success" href="{{route('topics.create')}}">Добавить тему</a>
     </div>
     <div class="table-responsive">
 
@@ -13,31 +13,25 @@
             <thead>
             <tr>
                 <th>№</th>
-                <th>Текст</th>
+                <th>Название</th>
                 <th>Описание</th>
                 <th>Уровень</th>
-                <th>Тема</th>
-                <th>Категория</th>
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>
             </tr>
             </thead>
             <tbody>
-            @forelse($tasks as $task)
+            @forelse($topics as $topic)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$task->body}}</td>
-                    <td>{{$task->description}}</td>
+                    <td>{{$topic->name}}</td>
+                    <td>{{$topic->description}}</td>
+                    <td>{{ isset($topic->level->level) ? $topic->level->level : '' }}</td>
+                    <td>{{ $topic->status ? 'Да' : 'Нет' }}</td>
+                    <td><a class="btn btn-primary" href="{{route('topics.edit', $topic->id)}}">Изменить</a></td>
                     <td>
-                        {{ (isset($task->level->level)) ? $task->level->level : 'Нет' }}
-                    </td>
-                    <td> {{ (isset($task->topic->name)) ? $task->topic->name : 'Нет' }} </td>
-                    <td> {{ (isset($task->category->name)) ? $task->category->name : 'Нет' }} </td>
-                    <td>{{ $task->status ? 'Да' : 'Нет' }}</td>
-                    <td><a class="btn btn-primary" href="{{route('tasks.edit', $task->id)}}">Изменить</a></td>
-                    <td>
-                        <form id="delete-form-{{$task->id}}" action="{{route('tasks.destroy', $task->id)}}"
+                        <form id="delete-form-{{$topic->id}}" action="{{route('topics.destroy', $topic->id)}}"
                               method="post" style="display:none">
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
@@ -45,7 +39,7 @@
                         <a class="btn btn-warning" href="" onclick="
                                 if(confirm('Вы уверены?')){
                                 event.preventDefault();
-                                document.getElementById('delete-form-{{$task->id}}').submit();
+                                document.getElementById('delete-form-{{$topic->id}}').submit();
                                 }else{
                                 event.preventDefault();
                                 }">Удалить
@@ -53,17 +47,15 @@
 
                     </td>
                 </tr>
-            @empty
+                @empty
             @endforelse
             </tbody>
             <tfoot>
             <tr>
                 <th>№</th>
-                <th>Текст</th>
+                <th>Название</th>
                 <th>Описание</th>
                 <th>Уровень</th>
-                <th>Тема</th>
-                <th>Категория</th>
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>

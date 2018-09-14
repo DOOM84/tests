@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Level;
 use App\Models\Task;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -37,8 +38,9 @@ class TaskController extends Controller
         $levels = Level::all();
 
         $categories = Category::all();
+        $topics = Topic::all();
 
-        return view('admin.tasks.add', compact('levels', 'categories'));
+        return view('admin.tasks.add', compact('levels', 'categories', 'topics'));
     }
 
     /**
@@ -87,8 +89,9 @@ class TaskController extends Controller
         $levels = Level::all();
 
         $categories = Category::all();
+        $topics = Topic::all();
 
-        return view('admin.tasks.edit', compact('levels', 'categories', 'task'));
+        return view('admin.tasks.edit', compact('levels', 'categories', 'task', 'topics'));
     }
 
     /**

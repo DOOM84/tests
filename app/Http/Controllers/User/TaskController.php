@@ -23,6 +23,10 @@ class TaskController extends Controller
     public function getResult(Request $request)
     {
         if(empty($request->answers) || count($request->answers) > $request->amount){
+            if(Auth::user()->level_id > 1){
+                Auth::user()->decrement('level_id');
+                Auth::user()->save();
+            }
             $arr = ['status' => 0];
             return json_encode($arr);
         }
@@ -37,7 +41,7 @@ class TaskController extends Controller
                 $result++;
             }
         }
-        if($result >= ($request->amount - 1)){
+        if($result != 0 && $result >= ($request->amount - 1)){
             Auth::user()->increment('level_id');
             Auth::user()->save();
 
@@ -50,6 +54,11 @@ class TaskController extends Controller
                 $arr = ['status' => $result];
             }
         }else{
+            //dd(Auth::user()->level_id);
+            if(Auth::user()->level_id > 1){
+                Auth::user()->decrement('level_id');
+                Auth::user()->save();
+            }
             $arr = ['status' => $result];
         }
 

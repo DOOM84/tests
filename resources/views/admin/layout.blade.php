@@ -52,6 +52,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{Request::segment(2) == 'topics' ? 'active' : ''}}" href="{{route('topics.index')}}">
+                            <span data-feather="file"></span>
+                            Темы
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{Request::segment(2) == 'tasks' ? 'active' : ''}}" href="{{route('tasks.index')}}">
                             <span data-feather="file"></span>
                             Тесты

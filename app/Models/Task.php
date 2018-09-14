@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $fillable = [
-        'body', 'description', 'level_id', 'category_id', 'status',
+        'body', 'description', 'level_id', 'category_id', 'status', 'topic_id'
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
     }
 
     public function level()

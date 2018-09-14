@@ -66,6 +66,17 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <label for="topic">Тема</label>
+                <select id="topic" name="topic_id" class="form-control">
+                    <option value="">Нет</option>
+                    @foreach($topics as $topic)
+                        <option value="{{$topic->id}}"
+                                @if(isset($task->topic->name) &&  $topic->id == $task->topic->id ) selected @endif>{{$topic->name}} ({{isset($topic->level->level) ? $topic->level->level : ''}})</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="checkbox">
                 <label>
                     <input name="status" type="checkbox" value="1" @if($task->status) checked @endif> Опубликовано
