@@ -28,7 +28,7 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
-                    <td>{{$user->level->level}}</td>
+                    <td>{{isset($user->level->level) ? $user->level->level : 'Tests passed'}}</td>
                     <td>
                         {{ $user->status ? 'Активный' : 'Заблокирован' }}
                     </td>

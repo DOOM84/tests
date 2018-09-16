@@ -4,20 +4,33 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Answer;
 use App\Models\Level;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 
 class TaskController extends Controller
 {
-    public function index(/*$lev = 1*/)
+    public function index(Request $request)
     {
-        $level = Level::getTasksWithAnswers(Auth::user()->level_id);
+
+        try {
+            $topic = Auth::user()->level->topics->where('id', $request->topic)->first()
+                ->load(['tasks' => function ($query) {$query->with('answers');}]);
+        } catch (\Exception $ex) {
+            return redirect()->route('user.index')
+                ->with('error','You can not access to this page');
+        } catch (\Throwable $ex) {
+            return redirect()->route('user.index')
+                ->with('error','You can not access to this page');
+        }
+
+        /*$level = Level::getTasksWithAnswers(Auth::user()->level_id);
         if(!$level->count()) {return redirect()->route('user.index')
             ->with('error','You can not access to this page or you have completed the tests');}
-        $level = $level[0];
+        $level = $level[0];*/
 
-        return view('user.tasks', compact('level'));
+        return view('user.tasks', compact('topic'));
     }
 
     public function getResult(Request $request)

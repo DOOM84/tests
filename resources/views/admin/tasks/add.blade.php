@@ -47,6 +47,15 @@
                     @endforeach
                 </select>
             </div>
+            <div class="form-group">
+                <label for="topic">Тема</label>
+                <select id="topic" name="topic_id" class="form-control">
+                    <option value="">Нет</option>
+                    @foreach($topics as $topic)
+                        <option value="{{$topic->id}}">{{$topic->name}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="checkbox">
                 <label>
