@@ -6,11 +6,11 @@
     <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
         @include('includes.messages')
         <div class="lh-100 ">
-            <h2 class="text-center mb-0 text-white lh-100">Level {{Auth::user()->level->level}}. Topic: {{$topic->name}}</h2>
+            <h2 class="text-center mb-0 text-white lh-100">Level {{$topic->level->level}}. Topic: {{$topic->name}}</h2>
         </div>
         <p class="text-right fixed-bottom" id="demo"></p>
     </div>
-@foreach($topic->tasks as $task)
+@foreach($topic->tasks->shuffle() as $task)
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">{{$task->body}} </h6>
         {{--<div class="media text-muted pt-3">
@@ -52,7 +52,9 @@
                 data: {
                     "_token": '{{ csrf_token() }}',
                     "answers": answ,
-                    "amount": '{{$topic->tasks->count()}}'
+                    "amount": '{{$topic->tasks->count()}}',
+                    "topic_id": '{{$topic->id}}',
+                    "level_id": '{{$topic->level_id}}',
                 },
                 success: function (data) {
                     data = jQuery.parseJSON(data);

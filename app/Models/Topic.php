@@ -15,6 +15,11 @@ class Topic extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function result()
+    {
+        return $this->hasOne(Result::class);
+    }
+
     public static function add($request)
     {
         $topic = new static;

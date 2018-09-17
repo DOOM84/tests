@@ -21,7 +21,7 @@ class RestrictAccess
         if (Auth::check()){
             return $next($request);
         }
-        Session::put('url.intended', URL::current());
+        //Session::put('url.intended', URL::current());
         return redirect('/login');
     }
 }

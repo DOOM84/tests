@@ -30,7 +30,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin'], function () {
 Route::group(['namespace' => 'User'], function () {
 
     Route::get('/', 'HomeController@index')->name('user.index');
-    Route::get('/tasks/', 'TaskController@index')->name('user.tasks')->middleware('restrictToGuest');
+    Route::any('/tasks/', 'TaskController@index')->name('user.tasks')->middleware('restrictToGuest');
     Route::post('/getResult', 'TaskController@getResult')->name('getResult')->middleware('restrictToGuest');;
 
 

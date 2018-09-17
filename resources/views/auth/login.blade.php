@@ -1,4 +1,5 @@
 @extends('user.layout')
+@section('title', 'Login')
 @section('content')
 
     <main role="main" class="container">

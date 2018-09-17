@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Level;
+use App\Models\Result;
 use App\Notifications\MailResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -32,6 +33,11 @@ class User extends Authenticatable
     public function level()
     {
         return $this->belongsTo(Level::class, 'level_id', 'ordered');
+    }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class);
     }
 
     public function sendPasswordResetNotification($token)

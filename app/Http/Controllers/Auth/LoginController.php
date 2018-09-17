@@ -51,7 +51,7 @@ class LoginController extends Controller
         );
     }
 
-    protected function sendLoginResponse(Request $request)
+    /*protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
 
@@ -63,6 +63,6 @@ class LoginController extends Controller
         }
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
-    }
+    }*/
 
 }
