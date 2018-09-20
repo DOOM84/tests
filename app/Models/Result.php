@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Result extends Model
 {
     protected $fillable = [
-        'user_id', 'topic_id', 'level_id', 'is_completed'
+        'user_id', 'topic_id', 'level_id', 'is_completed', 'value', 'ects', 'natValue', 'result'
     ];
 
     public function user()

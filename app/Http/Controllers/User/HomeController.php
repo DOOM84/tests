@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
 
         if (Auth::check()){
-            $topics = Topic::where('level_id', '<=', Auth::user()->level->id)->get();
+            $topics = Topic::where('level_id',  Auth::user()->level->id)->get();
             $results = Auth::user()->results->where('is_completed', 1)->all();
         }
 

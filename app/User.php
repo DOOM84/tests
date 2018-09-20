@@ -44,4 +44,30 @@ class User extends Authenticatable
     {
         $this->notify(new MailResetPasswordNotification($token));
     }
+
+    public function updRes($topic_id, $level_id, $is_compl, $value, $ects, $natValue, $result)
+    {
+        $res = $this->results()
+            ->firstOrCreate(['topic_id' => $topic_id, 'level_id' => $level_id]);
+        $res->update(['topic_id' => $topic_id,
+            'level_id' => $level_id,
+            'is_completed' => $is_compl,
+            'value' => $value,
+            'ects' => $ects,
+            'natValue' => $natValue,
+            'result' => $result,
+        ]);
+    }
+
+    public function reduceLevel()
+    {
+        $compl = $this->results()
+            ->where('level_id', $this->level->id)->where('is_completed', Null)->count();
+        $topicsLev = $this->level->topics->count();
+
+        if ($compl == $topicsLev) {
+            $this->decrement('level_id');
+            $this->save();
+        }
+    }
 }

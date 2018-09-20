@@ -44,14 +44,7 @@ class TaskController extends Controller
     public function getResult(Request $request)
     {
         if (empty($request->answers) || count($request->answers) > $request->amount) {
-            if (Auth::user()->level_id > 1 && Auth::user()->level->id == $request->level_id) {
-                Auth::user()->decrement('level_id');
-                Auth::user()->save();
-            }
-            $res = Auth::user()->results()
-                ->firstOrCreate(['topic_id' => $request->topic_id, 'level_id' => $request->level_id,]);
-            $res->update(['topic_id' => $request->topic_id, 'level_id' => $request->level_id, 'is_completed' => Null]);
-            $arr = ['status' => 0];
+            $arr = ['status' => 'Помилка! Ви не відзначили жодної відповіді'];
             return json_encode($arr);
         }
         if (Auth::user()->level_id > Level::max('ordered')) {
@@ -65,6 +58,93 @@ class TaskController extends Controller
                 $result++;
             }
         }
+
+        $result = round(($result/$request->amount)*100, 0);
+
+        if($result >= 90 && $result <= 100){
+            $value = 'Відмінно';
+            $ects = 'A';
+            $natValue = 5;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, 1, $value, $ects, $natValue, $result);
+
+            $compl = Auth::user()->results()
+                ->where('level_id', Auth::user()->level->id)->where('is_completed', 1)->count();
+            $topicsLev = Auth::user()->level->topics->count();
+
+            if ($compl == $topicsLev) {
+                Auth::user()->increment('level_id');
+                Auth::user()->save();
+            }
+
+        }elseif ($result >= 82 && $result <= 89){
+            $value = 'Добре';
+            $ects = 'B';
+            $natValue = 4;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->reduceLevel();
+
+        }elseif($result >= 75 && $result <= 81){
+            $value = 'Добре';
+            $ects = 'C';
+            $natValue = 4;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->reduceLevel();
+
+        }elseif ($result >= 67 && $result <= 74){
+            $value = 'Задовільно';
+            $ects = 'D';
+            $natValue = 3;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->reduceLevel();
+
+        }elseif($result >= 60 && $result <= 66){
+            $value = 'Задовільно';
+            $ects = 'E';
+            $natValue = 3;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->reduceLevel();
+
+        }elseif ($result >= 35 && $result <= 59){
+            $value = 'Незадовільно';
+            $ects = 'FX';
+            $natValue = 1;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->reduceLevel();
+
+        }elseif($result >= 0 && $result <= 34){
+            $value = 'Незадовільно';
+            $ects = 'F';
+            $natValue = 0;
+
+            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->reduceLevel();
+        }
+
+        if ((Auth::user()->level_id) > Level::max('ordered')) {
+            Auth::user()->decrement('level_id');
+            Auth::user()->save();
+            $arr = [
+                'status' => $result . ' Congratulations! You\'ve completed all the tests successfully!',
+                'completed' => 1
+            ];
+        } else {
+            $arr = ['status' => $result];
+        }
+
+        return json_encode($arr);
+
+
+
+
+
+
+
         if ($result != 0 && $result >= ($request->amount - 1)) {
 
             $res = Auth::user()->results()
@@ -80,7 +160,9 @@ class TaskController extends Controller
                 Auth::user()->save();
             }
 
-            if ((Auth::user()->level_id + 1) > Level::max('ordered')) {
+            if ((Auth::user()->level_id) > Level::max('ordered')) {
+                Auth::user()->decrement('level_id');
+                Auth::user()->save();
                 $arr = [
                     'status' => $result . ' Congratulations! You\'ve completed all the tests successfully!',
                     'completed' => 1
@@ -95,6 +177,11 @@ class TaskController extends Controller
             if (Auth::user()->level_id > 1 && Auth::user()->level->id == $request->level_id) {
                 Auth::user()->decrement('level_id');
                 Auth::user()->save();
+
+                $prevResLev = Auth::user()->results->where('level_id', Auth::user()->level->id - 1)->all();
+                foreach ($prevResLev as $level) {
+                    $level->update(['is_completed' => Null]);
+                }
             }
             $arr = ['status' => $result];
         }
