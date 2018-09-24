@@ -25,6 +25,11 @@ class Task extends Model
         return $this->belongsTo(Level::class);
     }
 
+    public function topics()
+    {
+        return $this->belongsToMany(Topic::class);
+    }
+
     public function answers()
     {
         return $this->hasMany(Answer::class);

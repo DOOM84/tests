@@ -10,17 +10,24 @@
         </div>
         <p class="text-right fixed-bottom" id="demo"></p>
     </div>
-@foreach($topic->tasks->shuffle() as $task)
+@foreach($topic->tasks->where('level_id', Auth::user()->level->ordered)->shuffle() as $task)
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">{{$task->body}} </h6>
         {{--<div class="media text-muted pt-3">
         </div>--}}
-        @foreach($task->answers as $answer)
+        @foreach($task->answers->shuffle() as $answer)
             <div class="custom-control custom-radio {{--text-muted--}}">
                 <input type="radio" id="{{'el'.$answer->id}}" value="{{$answer->id}}" name="{{'custom'.$task->id}}" class="custom-control-input">
                 <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
             </div>
         @endforeach
+
+        {{--@foreach($task->answers->shuffle() as $answer)
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" id="{{'el'.$answer->id}}" value="{{$answer->id}}" name="{{'custom'.$task->id}}" class="custom-control-input">
+            <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
+        </div>
+        @endforeach--}}
     </div>
     @endforeach
     <div class="container text-right">
@@ -83,10 +90,6 @@
 
         // Set the date we're counting down to
         var countDownDate = new Date().getTime() + '{{$topic->tasks->count()}}'*1000 * 60;
-
-        console.log(countDownDate)
-
-
 
         // Update the count down every 1 second
         var x = setInterval(function() {

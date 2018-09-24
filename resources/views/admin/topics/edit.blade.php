@@ -19,7 +19,7 @@
                 <textarea class="form-control" name="description" id="description" rows="3">{{$topic->description}}</textarea>
             </div>
 
-            <div class="form-group">
+            {{--<div class="form-group">
                 <label for="level">Уровень</label>
                 <select id="level" name="level_id" class="form-control">
                     <option value="">Нет</option>
@@ -28,6 +28,24 @@
                                 @if(isset($topic->level->level) && $topic->level->level == $level->level) selected @endif>{{$level->level}}</option>
                     @endforeach
                 </select>
+            </div>--}}
+
+            <div class="form-group">
+                <label for="">Уровень</label>
+                @foreach($levels as $level)
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="levels[]" value="{{$level->id}}"
+                                       @foreach($topic->levels as $topic_level)
+                                       @if($topic_level->id == $level->id)
+                                       checked
+                                        @endif
+                                        @endforeach
+                                >
+                                {{$level->level}}
+                            </label>
+                        </div>
+                @endforeach
             </div>
 
             <div class="checkbox">

@@ -23,6 +23,18 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group mb-4">
+                <label>Уровни</label>
+            @foreach($levels as $level)
+            <div class="checkbox">
+                <label>
+                        <input id="levels" name="levels[]" type="checkbox" value="{{$level->id}}"> {{$level->level}}
+                </label>
+            </div>
+            @endforeach
+            </div>
+
             <div class="checkbox">
                 <label>
                     <input name="status" type="checkbox" value="1"> Опубликовано

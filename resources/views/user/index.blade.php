@@ -32,13 +32,13 @@
                     {{--<label for="topic">Choose topic:</label>--}}
                     <select id="topic" class="custom-select" name="topic">
                         <option value="">Choose topic:</option>
-                        @forelse($topics as $topic)
+                        @forelse($topics->sortBy('name') as $topic)
                             @foreach($results as $result)
                                 @if($result->topic_id == $topic->id) @set($compl, 1) @break  @endif
                             @endforeach
 
                             <option class="@if($compl == 1) text-green @else text-red @endif" value="{{$topic->id}}">
-                                {{$topic->name}} ({{$topic->level->level}}) @if($compl == 1) Completed @else @endif
+                                {{$topic->name}} {{--({{$topic->level->level}})--}} @if($compl == 1) Completed @else @endif
                             </option>
                             @set($compl, 0)
                         @empty

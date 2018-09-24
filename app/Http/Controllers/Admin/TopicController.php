@@ -48,6 +48,7 @@ class TopicController extends Controller
             'name' => 'required',
         ]);
         $topic = Topic::add($request->all());
+        $topic->levels()->sync($request->levels);
 
         return redirect(route('topics.index'))->with('status', 'Тема успешно сохранена');
     }
@@ -90,6 +91,7 @@ class TopicController extends Controller
         ]);
         $topic = Topic::find($id);
         $topic->edit($request->all());
+        $topic->levels()->sync($request->levels);
 
         return redirect(route('topics.index'))->with('status', 'Тема успешно изменена');
     }
@@ -107,6 +109,7 @@ class TopicController extends Controller
             $task->topic()->dissociate();
             $task->save();
         });*/
+        $topic->levels()->detach();
         $topic->delete();
         return redirect()->back()->with('status', 'Тема успешно удалена');
     }

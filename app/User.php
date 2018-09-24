@@ -69,5 +69,22 @@ class User extends Authenticatable
             $this->decrement('level_id');
             $this->save();
         }
+        $prevResLev = $this->results->where('level_id', $this->level->id - 1);
+        $prevResLev->each(function ($level) {
+            $level->update(['is_completed' => Null]);
+        });
+    }
+
+    public function increaseLevel()
+    {
+
+        $compl = $this->results()
+            ->where('level_id', $this->level->id)->where('is_completed', 1)->count();
+        $topicsLev = $this->level->topics->count();
+
+        if ($compl == $topicsLev) {
+            $this->increment('level_id');
+            $this->save();
+        }
     }
 }

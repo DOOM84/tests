@@ -21,7 +21,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('category')->with('level')->get();
+        $tasks = Task::with('category')->with('level')->with('topics')->get();
         //dd($tasks);
 
 
@@ -51,7 +51,6 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate($request, [
             'body' => 'required',
         ]);
@@ -62,6 +61,8 @@ class TaskController extends Controller
             if (empty($answer['body'])) continue;
             $task->answers()->create($answer);
         }
+
+        $task->topics()->sync($request->topics);
 
         return redirect(route('tasks.index'))->with('status', 'Тест успешно сохранен');
     }
@@ -113,6 +114,7 @@ class TaskController extends Controller
             if (empty($answer['body'])) continue;
             $task->answers()->create($answer);
         }
+        $task->topics()->sync($request->topics);
         return redirect(route('tasks.index'))->with('status', 'Тест успешно изменен');
     }
 
@@ -126,6 +128,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $task->answers()->delete();
+        $task->topics()->detach();
         $task->delete();
         return redirect(route('tasks.index'))->with('status', 'Тест успешно удален');
     }

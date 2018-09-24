@@ -47,12 +47,13 @@
                     @endforeach
                 </select>
             </div>
+
             <div class="form-group">
                 <label for="topic">Тема</label>
-                <select id="topic" name="topic_id" class="form-control">
+                <select id="topic" name="topics[]" class="form-control" multiple size='20'>
                     <option value="">Нет</option>
-                    @foreach($topics as $topic)
-                        <option value="{{$topic->id}}">{{$topic->name}}</option>
+                    @foreach($topics->sortBy('name') as $topic)
+                        <option value="{{$topic->id}}">{{$topic->name}} {{--({{isset($topic->level->level) ? $topic->level->level : ''}})--}}</option>
                     @endforeach
                 </select>
             </div>

@@ -10,10 +10,10 @@ class Topic extends Model
         'name', 'description', 'status', 'level_id'
     ];
 
-    public function tasks()
+    /*public function tasks()
     {
         return $this->hasMany(Task::class);
-    }
+    }*/
 
     public function result()
     {
@@ -28,6 +28,16 @@ class Topic extends Model
         $topic->save();
         return $topic;
 
+    }
+
+    public function levels()
+    {
+        return $this->belongsToMany(Level::class);
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
     }
 
     public function level()
