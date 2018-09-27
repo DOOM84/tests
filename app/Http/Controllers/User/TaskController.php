@@ -25,7 +25,8 @@ class TaskController extends Controller
         }
 
         //$topic = Topic::where('level_id', '<=', Auth::user()->level->id)->where('id', $request->topic)->first();
-        $topic = Auth::user()->level->topics->where('id', $request->topic)->first();
+        $topic = Auth::user()->level->topics->where('id', $request->topic)->first()
+            ->load(['tasks' => function ($query) {$query->where('level_id', Auth::user()->level->ordered)->with('answers');}]);
 
         if (!$topic) {
             return redirect()->route('user.index')
@@ -54,7 +55,8 @@ class TaskController extends Controller
 
     public function getResult(Request $request)
     {
-        if (empty($request->answers) || count($request->answers) > $request->amount) {
+        //dd($request->answers);
+        if (empty($request->answers) /*|| count($request->answers) > $request->amount*/) {
             $arr = ['status' => 'Помилка! Ви не відзначили жодної відповіді'];
             return json_encode($arr);
         }
@@ -63,21 +65,33 @@ class TaskController extends Controller
             return json_encode($arr);
         }
         $result = 0;
-        foreach ($request->answers as $answer) {
+        /*foreach ($request->answers as $answer) {
             $res = Answer::where('id', $answer)->first();
             if ($res->is_correct) {
                 $result++;
             }
+        }*/
+
+        foreach ($request->answers as $answer) {
+            $res = Answer::where('id', $answer)->first();
+            if ($res->is_correct) {
+                $result++;
+            }else{
+                $result-=0.5;
+            }
         }
 
+        $result = $result < 0 ? $result = 0 : $result;
+
         $result = round(($result / $request->amount) * 100, 0);
+        dd($result);
 
         if ($result >= 90 && $result <= 100) {
             $value = 'Відмінно';
             $ects = 'A';
             $natValue = 5;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, 1, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, 1, $value, $ects, $natValue, $result);
             Auth::user()->increaseLevel();
 
         } elseif ($result >= 82 && $result <= 89) {
@@ -85,7 +99,8 @@ class TaskController extends Controller
             $ects = 'B';
             $natValue = 4;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            //Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 75 && $result <= 81) {
@@ -93,7 +108,7 @@ class TaskController extends Controller
             $ects = 'C';
             $natValue = 4;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 67 && $result <= 74) {
@@ -101,7 +116,7 @@ class TaskController extends Controller
             $ects = 'D';
             $natValue = 3;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 60 && $result <= 66) {
@@ -109,7 +124,7 @@ class TaskController extends Controller
             $ects = 'E';
             $natValue = 3;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 35 && $result <= 59) {
@@ -117,7 +132,7 @@ class TaskController extends Controller
             $ects = 'FX';
             $natValue = 1;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 0 && $result <= 34) {
@@ -125,7 +140,7 @@ class TaskController extends Controller
             $ects = 'F';
             $natValue = 0;
 
-            Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
             Auth::user()->reduceLevel();
         }
 

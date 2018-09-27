@@ -23,6 +23,9 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin'], function () {
     Route::resource('/admin/tasks', 'TaskController');
     Route::resource('/admin/users', 'UserController');
     Route::resource('/admin/topics', 'TopicController');
+    Route::resource('/admin/groups', 'GroupController');
+    Route::resource('/admin/institutes', 'InstituteController');
+    Route::resource('/admin/branches', 'BranchController');
     Route::get('/admin/deleteAnswer/{id}', 'TaskController@deleteAnswer')->name('admin.deleteAnswer');
 });
 

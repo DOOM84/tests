@@ -16,6 +16,8 @@
                 <th>Имя</th>
                 <th>Email</th>
                 <th>Уровень</th>
+                <th>Группа</th>
+                <th>Учебное заведение</th>
                 <th>Статус</th>
                 <th>Администратор</th>
                 <th>Изменить</th>
@@ -29,6 +31,8 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{isset($user->level->level) ? $user->level->level : 'Tests passed'}}</td>
+                    <td>{{isset($user->group->name) ? $user->group->name : 'Нет'}}</td>
+                    <td>{{isset($user->group->institute->name) ? $user->group->institute->name : 'Нет'}}</td>
                     <td>
                         {{ $user->status ? 'Активный' : 'Заблокирован' }}
                     </td>
@@ -62,6 +66,8 @@
                 <th>Имя</th>
                 <th>Email</th>
                 <th>Уровень</th>
+                <th>Группа</th>
+                <th>Учебное заведение</th>
                 <th>Статус</th>
                 <th>Администратор</th>
                 <th>Изменить</th>

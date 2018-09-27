@@ -23,6 +23,27 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group">
+                <label for="group">Группа</label>
+                <select id="group" name="group_id" class="form-control">
+                    <option value="">Нет</option>
+                    @foreach($groups as $group)
+                        <option value="{{$group->id}}">{{$group->name}} ({{$group->institute->name}})</option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{--<div class="form-group">
+                <label for="institute">Учебное заведение</label>
+                <select id="institute" name="institute_id" class="form-control">
+                    <option value="">Нет</option>
+                    @foreach($institutes as $institute)
+                        <option value="{{$institute->id}}">{{$institute->name}}</option>
+                    @endforeach
+                </select>
+            </div>--}}
+
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">

@@ -18,6 +18,37 @@
                 <input type="email" class="form-control" value="{{$user->email}}" id="email" name="email"
                        placeholder="Email">
             </div>
+
+            {{--<div class="form-group">
+                <label for="institute">Учебное заведение</label>
+                <select id="institute" name="institute_id" class="form-control">
+                    <option value="">Нет</option>
+                    @foreach($institutes as $institute)
+                        <option value="{{$institute->id}}"
+                                @foreach($institute->users as $institute_user)
+                                @if($institute_user->id == $user->id) selected @endif
+                                @endforeach
+                        >{{$institute->name}}</option>
+                    @endforeach
+                </select>
+            </div>--}}
+
+
+            <div class="form-group">
+                <label for="group">Группа</label>
+                <select id="group" name="group_id" class="form-control">
+                    <option value="">Нет</option>
+                    @foreach($groups as $group)
+                        <option value="{{$group->id}}"
+                                @foreach($group->users as $group_user)
+                                @if($group_user->id == $user->id) selected @endif
+                                @endforeach
+                        >{{$group->name}} ({{$group->institute->name}})</option>
+                    @endforeach
+                </select>
+            </div>
+
+
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">

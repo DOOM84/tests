@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Group;
+use App\Models\Institute;
 use App\Models\Level;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('level')->get();
+        $users = User::with('level')->with('group')->with('institute')->get();
 
         return view('admin.users.show', compact('users'));
     }
@@ -32,7 +34,9 @@ class UserController extends Controller
     public function create()
     {
         $levels = Level::all();
-        return view('admin.users.add', compact('levels'));
+        $groups = Group::all();
+        $institutes = Institute::all();
+        return view('admin.users.add', compact('levels', 'groups', 'institutes'));
     }
 
     /**
@@ -93,7 +97,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $levels = Level::all();
-        return view('admin.users.edit', compact('user', 'levels'));
+        $groups = Group::all();
+        $institutes = Institute::all();
+        return view('admin.users.edit', compact('user', 'levels', 'groups', 'institutes'));
     }
 
     /**

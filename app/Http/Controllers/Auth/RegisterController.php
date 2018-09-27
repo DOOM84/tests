@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Group;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -40,6 +41,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $groups = Group::with('institute')->get();
+        return view('auth.register', compact('groups'));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,6 +58,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'group_id' => 'required',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -66,6 +74,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'group_id' => $data['group_id'],
             'password' => Hash::make($data['password']),
         ]);
     }

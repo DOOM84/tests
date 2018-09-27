@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Group;
+use App\Models\Institute;
 use App\Models\Level;
 use App\Models\Result;
 use App\Notifications\MailResetPasswordNotification;
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'level_id', 'status', 'is_admin'
+        'name', 'email', 'password', 'level_id', 'status', 'is_admin', 'group_id', 'institute_id'
     ];
 
     /**
@@ -35,6 +37,16 @@ class User extends Authenticatable
         return $this->belongsTo(Level::class, 'level_id', 'ordered');
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function institute()
+    {
+        return $this->belongsTo(Institute::class);
+    }
+
     public function results()
     {
         return $this->hasMany(Result::class);
@@ -45,12 +57,12 @@ class User extends Authenticatable
         $this->notify(new MailResetPasswordNotification($token));
     }
 
-    public function updRes($topic_id, $level_id, $is_compl, $value, $ects, $natValue, $result)
+    public function updRes($topic_id, $is_compl, $value, $ects, $natValue, $result)
     {
         $res = $this->results()
-            ->firstOrCreate(['topic_id' => $topic_id, 'level_id' => $level_id]);
+            ->firstOrCreate(['topic_id' => $topic_id, 'level_id' => $this->level_id]);
         $res->update(['topic_id' => $topic_id,
-            'level_id' => $level_id,
+            'level_id' => $this->level_id,
             'is_completed' => $is_compl,
             'value' => $value,
             'ects' => $ects,

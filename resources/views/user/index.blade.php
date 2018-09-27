@@ -33,8 +33,9 @@
                     <select id="topic" class="custom-select" name="topic">
                         <option value="">Choose topic:</option>
                         @forelse($topics->sortBy('name') as $topic)
-                            @foreach($results as $result)
-                                @if($result->topic_id == $topic->id) @set($compl, 1) @break  @endif
+                            @foreach(Auth::user()->results as $result)
+                                @if($result->topic_id == $topic->id && $result->level_id == Auth::user()->level_id
+                                && isset($result->is_completed)) @set($compl, 1) @break  @endif
                             @endforeach
 
                             <option class="@if($compl == 1) text-green @else text-red @endif" value="{{$topic->id}}">
