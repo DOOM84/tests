@@ -16,6 +16,11 @@ class Level extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
+
     /*public function topics()
     {
         return $this->hasMany(Topic::class);

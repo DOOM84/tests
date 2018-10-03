@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Detail;
 use App\Models\Group;
 use App\Models\Institute;
 use App\Models\Level;
@@ -57,7 +58,8 @@ class User extends Authenticatable
         $this->notify(new MailResetPasswordNotification($token));
     }
 
-    public function updRes($topic_id, $is_compl, $value, $ects, $natValue, $result)
+    public function updRes($topic_id, $is_compl, $value, $ects, $natValue, $result, $details, $start, $duration,
+                           $correct, $incorrect)
     {
         $res = $this->results()
             ->firstOrCreate(['topic_id' => $topic_id, 'level_id' => $this->level_id]);
@@ -68,14 +70,29 @@ class User extends Authenticatable
             'ects' => $ects,
             'natValue' => $natValue,
             'result' => $result,
+            'start' => $start,
+            'duration' => $duration,
         ]);
+        $answers = json_encode($details);
+
+        $res->detail()->firstOrCreate(['result_id' => $res->id])->update([
+            'answers' => $answers,
+            'correct' => $correct,
+            'incorrect' => $incorrect
+        ]);
+
+
+
+
+
+        //$res->detail()->save($detail);
     }
 
     public function reduceLevel()
     {
         $compl = $this->results()
             ->where('level_id', $this->level->id)->where('is_completed', Null)->count();
-        $topicsLev = $this->level->topics->count();
+        $topicsLev = $this->level->topics->where('status', 1)->count();
 
         if ($compl == $topicsLev) {
             $this->decrement('level_id');
@@ -92,11 +109,22 @@ class User extends Authenticatable
 
         $compl = $this->results()
             ->where('level_id', $this->level->id)->where('is_completed', 1)->count();
-        $topicsLev = $this->level->topics->count();
+        $topicsLev = $this->level->topics->where('status', 1)->count();
 
         if ($compl == $topicsLev) {
             $this->increment('level_id');
             $this->save();
         }
     }
+
+
+    public function getMidRes($level)
+    {
+        $curRes = $this->results->where('level_id', $level);
+
+        return round($curRes->sum('result') / $curRes->count(), 0);
+    }
+
+
+
 }

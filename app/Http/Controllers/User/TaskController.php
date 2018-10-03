@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Answer;
 use App\Models\Level;
-use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -13,25 +12,36 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
+        /*$tasks = Auth::user()->level->tasks()->take(50)->inRandomOrder()->get();
+        dd($tasks);*/
+
         if (!$request->topic || $request->isMethod('get')) return redirect()->back();
 
-        if (Auth::user()->level->ordered == 3) {
-            if (Auth::user()->attempts > Auth::user()->level->topics->count() * 2) {
-                return redirect()->route('user.index')->with('error', 'Перевищено кількість спроб.');
-            } else {
-                Auth::user()->increment('attempts');
-                Auth::user()->save();
+        $topic = Null;
+        $tasks = Null;
+
+        if ($request->topic == 'general') {
+            $tasks = Auth::user()->level->tasks()->with('answers')->distinct()->inRandomOrder()->take(50)->get();
+        } else {
+            if (Auth::user()->level->ordered == 3) {
+                if (Auth::user()->attempts > Auth::user()->level->topics->count() * 2) {
+                    return redirect()->route('user.index')->with('error', 'Перевищено кількість спроб.');
+                } else {
+                    Auth::user()->increment('attempts');
+                    Auth::user()->save();
+                }
             }
-        }
+            //$topic = Topic::where('level_id', '<=', Auth::user()->level->id)->where('id', $request->topic)->first();
+            $topic = Auth::user()->level->topics->where('id', $request->topic)->first()
+                ->load(['tasks' => function ($query) {
+                    $query->where('level_id', Auth::user()->level->ordered)->with('answers');
+                }]);
+        };
 
-        //$topic = Topic::where('level_id', '<=', Auth::user()->level->id)->where('id', $request->topic)->first();
-        $topic = Auth::user()->level->topics->where('id', $request->topic)->first()
-            ->load(['tasks' => function ($query) {$query->where('level_id', Auth::user()->level->ordered)->with('answers');}]);
-
-        if (!$topic) {
+        if (!$topic && !$tasks->count()) {
             return redirect()->route('user.index')
                 ->with('error', 'You can not access to this page');
-        };
+        }
 
 
         /*try {
@@ -50,13 +60,13 @@ class TaskController extends Controller
             ->with('error','You can not access to this page or you have completed the tests');}
         $level = $level[0];*/
 
-        return view('user.tasks', compact('topic'));
+        return view('user.tasks', compact('topic', 'tasks'));
     }
 
     public function getResult(Request $request)
     {
         //dd($request->answers);
-        if (empty($request->answers) /*|| count($request->answers) > $request->amount*/) {
+        if (empty($request->answers) || count($request->answers) > $request->amount) {
             $arr = ['status' => 'Помилка! Ви не відзначили жодної відповіді'];
             return json_encode($arr);
         }
@@ -65,33 +75,36 @@ class TaskController extends Controller
             return json_encode($arr);
         }
         $result = 0;
-        /*foreach ($request->answers as $answer) {
-            $res = Answer::where('id', $answer)->first();
-            if ($res->is_correct) {
-                $result++;
-            }
-        }*/
-
+        $repTopics = [];
         foreach ($request->answers as $answer) {
             $res = Answer::where('id', $answer)->first();
             if ($res->is_correct) {
                 $result++;
-            }else{
-                $result-=0.5;
+            } else {
+                $res->task->topics->each(function ($forRepeat) use (&$repTopics) {
+                    $repTopics[] = $forRepeat->description;
+                });
             }
         }
 
-        $result = $result < 0 ? $result = 0 : $result;
+        $correct = $result;
+        $incorrect = $request->amount - $result;
+
+        $topRep = array_unique($repTopics);
+
+        //dd($topRep);
+
+        //$result = $result < 0 ? $result = 0 : $result;
 
         $result = round(($result / $request->amount) * 100, 0);
-        dd($result);
 
         if ($result >= 90 && $result <= 100) {
             $value = 'Відмінно';
             $ects = 'A';
             $natValue = 5;
 
-            Auth::user()->updRes($request->topic_id, 1, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, 1, $value, $ects, $natValue, $result,
+                $request->answers, $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->increaseLevel();
 
         } elseif ($result >= 82 && $result <= 89) {
@@ -99,8 +112,8 @@ class TaskController extends Controller
             $ects = 'B';
             $natValue = 4;
 
-            //Auth::user()->updRes($request->topic_id, $request->level_id, Null, $value, $ects, $natValue, $result);
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+                $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 75 && $result <= 81) {
@@ -108,7 +121,8 @@ class TaskController extends Controller
             $ects = 'C';
             $natValue = 4;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+                $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 67 && $result <= 74) {
@@ -116,7 +130,8 @@ class TaskController extends Controller
             $ects = 'D';
             $natValue = 3;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+                $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 60 && $result <= 66) {
@@ -124,7 +139,8 @@ class TaskController extends Controller
             $ects = 'E';
             $natValue = 3;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+                $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 35 && $result <= 59) {
@@ -132,7 +148,8 @@ class TaskController extends Controller
             $ects = 'FX';
             $natValue = 1;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+                $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
         } elseif ($result >= 0 && $result <= 34) {
@@ -140,7 +157,8 @@ class TaskController extends Controller
             $ects = 'F';
             $natValue = 0;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result);
+            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+                $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
         }
 
@@ -152,54 +170,10 @@ class TaskController extends Controller
                 'completed' => 1
             ];
         } else {
-            $arr = ['status' => $result];
+            $arr = ['status' => $result, 'repeat' => $topRep];
         }
 
         return json_encode($arr);
-
-
-        /*if ($result != 0 && $result >= ($request->amount - 1)) {
-
-            $res = Auth::user()->results()
-                ->firstOrCreate(['topic_id' => $request->topic_id, 'level_id' => $request->level_id]);
-            $res->update(['topic_id' => $request->topic_id, 'level_id' => $request->level_id, 'is_completed' => 1]);
-
-            $compl = Auth::user()->results()
-                ->where('level_id', Auth::user()->level->id)->where('is_completed', 1)->count();
-            $topicsLev = Auth::user()->level->topics->count();
-
-            if ($compl == $topicsLev) {
-                Auth::user()->increment('level_id');
-                Auth::user()->save();
-            }
-
-            if ((Auth::user()->level_id) > Level::max('ordered')) {
-                Auth::user()->decrement('level_id');
-                Auth::user()->save();
-                $arr = [
-                    'status' => $result . ' Congratulations! You\'ve completed all the tests successfully!',
-                    'completed' => 1
-                ];
-            } else {
-                $arr = ['status' => $result];
-            }
-        } else {
-            $res = Auth::user()->results()
-                ->firstOrCreate(['topic_id' => $request->topic_id, 'level_id' => $request->level_id,]);
-            $res->update(['topic_id' => $request->topic_id, 'level_id' => $request->level_id, 'is_completed' => Null]);
-            if (Auth::user()->level_id > 1 && Auth::user()->level->id == $request->level_id) {
-                Auth::user()->decrement('level_id');
-                Auth::user()->save();
-
-                $prevResLev = Auth::user()->results->where('level_id', Auth::user()->level->id - 1)->all();
-                foreach ($prevResLev as $level) {
-                    $level->update(['is_completed' => Null]);
-                }
-            }
-            $arr = ['status' => $result];
-        }*/
-
-        //return json_encode($arr);
     }
 
 

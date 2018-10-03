@@ -6,37 +6,52 @@
         <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
             @include('includes.messages')
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Level {{$topic->level->level}}.
-                    Topic: {{$topic->name}}</h2>
+                <h2 class="text-center mb-0 text-white lh-100">Level {{Auth::user()->level->level}}.
+                    {{isset($topic->name) ? 'Topic: ' .$topic->name : ''}}</h2>
             </div>
             <p class="text-right fixed-bottom" id="demo"></p>
         </div>
-        @set($rightAns, 0)
-        @foreach($topic->tasks->shuffle() as $task)
-            <div class="my-3 p-3 bg-white rounded shadow-sm">
-                <h6 class="border-bottom border-gray pb-2 mb-0">{{$task->body}} </h6>
-                {{--<div class="media text-muted pt-3">
-                </div>--}}
-                {{--@foreach($task->answers->shuffle() as $answer)
-                    <div class="custom-control custom-radio --}}{{--text-muted--}}{{--">
-                        <input type="radio" id="{{'el'.$answer->id}}" value="{{$answer->id}}" name="{{'custom'.$task->id}}" class="custom-control-input">
-                        <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
-                    </div>
-                @endforeach--}}
+        @if(isset($tasks))
+            @foreach($tasks->shuffle() as $task)
+                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                    <h6 class="border-bottom border-gray pb-2 mb-0">{{$task->body}} </h6>
+                    @foreach($task->answers->shuffle() as $answer)
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="{{'el'.$answer->id}}" value="{{$answer->id}}" name="{{'custom'.$task->id}}" class="custom-control-input">
+                            <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
+            @else
 
-                @foreach($task->answers->shuffle() as $answer)
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="{{'el'.$answer->id}}" value="{{$answer->id}}"
-                               name="{{'custom'.$task->id}}" class="custom-control-input">
-                        <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
-                    </div>
-                    @if($answer->is_correct)
-                        @set($rightAns, $rightAns + 1)
-                    @endif
-                @endforeach
+            @foreach($topic->tasks->shuffle() as $task)
+                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                    <h6 class="border-bottom border-gray pb-2 mb-0">{{$task->body}} </h6>
+                    {{--<div class="media text-muted pt-3">
+                    </div>--}}
+                    @foreach($task->answers->shuffle() as $answer)
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="{{'el'.$answer->id}}" value="{{$answer->id}}" name="{{'custom'.$task->id}}" class="custom-control-input">
+                            <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
+                        </div>
+                    @endforeach
 
-            </div>
-        @endforeach
+                    {{--@foreach($task->answers->shuffle() as $answer)
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="{{'el'.$answer->id}}" value="{{$answer->id}}"
+                                   name="{{'custom'.$task->id}}" class="custom-control-input">
+                            <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
+                        </div>
+                        @if($answer->is_correct)
+                            @set($rightAns, $rightAns + 1)
+                        @endif
+                    @endforeach--}}
+
+                </div>
+            @endforeach
+
+            @endif
         <div class="container text-right">
             <button type="button" id="sendRes" class="btn btn-success ">Send</button>
         </div>
@@ -54,23 +69,28 @@
             });
         });
 
+        var start = Math.round((new Date()).getTime() / 1000);
+
         function finishTest() {
-            var cnt = $("input[type=checkbox]:checked");
+            var cnt = $("input[type=radio]:checked");
             var answ = [];
             for (var i = 0; i < cnt.length; i++) {
                 answ[i] = cnt[i].value;
             }
-            /*console.log(answ);
-            return false;*/
+            var end = Math.round((new Date()).getTime() / 1000);
+            var duration = end - start;
+
             $.ajax({
                 type: "POST",
                 url: '{{route('getResult')}}',
                 data: {
                     "_token": '{{ csrf_token() }}',
                     "answers": answ,
-                    "amount": '{{$rightAns}}',
-                    "topic_id": '{{$topic->id}}',
-                    "level_id": '{{$topic->level_id}}',
+                    "amount": '{{isset($topic->name) ? $topic->tasks->count() : $tasks->count()}} ',
+                    "topic_id": '{{isset($topic->name) ? $topic->id : Null }}',
+                    "level_id": '{{Auth::user()->level->id}}',
+                    "duration": duration,
+                    "start": start
                 },
                 success: function (data) {
                     data = jQuery.parseJSON(data);
@@ -90,6 +110,15 @@
                         contin +
                         "</div>");
 
+                    if (data.status < 90 && Object.keys(data.repeat).length > 0) {
+                        $("#mainWin").append("<ul class=\"list-group\" id=\"repeatTopics\">" +
+                            "<li class=\"list-group-item active\">Вам необходимо повторить следующие темы:</li>" +
+                            "</ul>");
+                        $.each( data.repeat, function( i, val ) {
+                            $("#repeatTopics").append("<li class=\"list-group-item\">" + val + "</li>");
+                        });
+                    }
+
                     $('html, body').animate({
                         scrollTop: $("#mainWin").offset().top
                     }, 500);
@@ -98,7 +127,7 @@
         }
 
         // Set the date we're counting down to
-        var countDownDate = new Date().getTime() + '{{$topic->tasks->count()}}' * 1000 * 60;
+        var countDownDate = new Date().getTime() + '{{isset($topic->name) ? $topic->tasks->count() : $tasks->count()}}' * 1000 * 60;
 
         // Update the count down every 1 second
         var x = setInterval(function () {

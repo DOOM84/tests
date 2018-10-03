@@ -58,7 +58,6 @@
             <div class="form-group">
                 <label for="level">Уровень</label>
                 <select id="level" name="level_id" class="form-control">
-                    <option value="">Нет</option>
                     @foreach($levels as $level)
                         <option value="{{$level->id}}"
                                 @if(isset($task->level->level) && $task->level->level == $level->level) selected @endif>{{$level->level}}</option>
@@ -69,7 +68,6 @@
             <div class="form-group">
                 <label for="topic">Тема</label>
                 <select id="topic" name="topics[]" class="form-control" multiple size='20'>
-                    <option value="">Нет</option>
                     @foreach($topics->sortBy('name') as $topic)
                         <option value="{{$topic->id}}"
                                 @foreach($task->topics as $task_topic)
