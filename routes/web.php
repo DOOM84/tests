@@ -38,7 +38,9 @@ Route::group(['namespace' => 'User'], function () {
 
     Route::prefix('stats')->group(function () {
         Route::get('/', 'StatsController@index')->name('user.stats');
+        Route::get('/group', 'StatsController@group')->name('user.stats.group');
         Route::get('/detail/{result}', 'StatsController@detail')->name('user.stats.detail');
+        Route::get('/show/{result}', 'StatsController@show')->name('user.stats.show');
     });
 
 

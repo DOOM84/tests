@@ -42,4 +42,8 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/holder.min.js')}}"></script>
 <script src="{{asset('js/offcanvas.js')}}"></script>
+<script src="{{asset('admin/js/feather.min.js')}}"></script>
+<script>
+    feather.replace()
+</script>
 

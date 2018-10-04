@@ -46,60 +46,69 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'home' ? 'active' : ''}}" href="{{route('admin.home')}}">
+                        <a class="nav-link {{Request::segment(2) == 'home' ? 'active' : ''}}"
+                           href="{{route('admin.home')}}">
                             <span data-feather="home"></span>
                             Панель управления
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'topics' ? 'active' : ''}}" href="{{route('topics.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'topics' ? 'active' : ''}}"
+                           href="{{route('topics.index')}}">
                             <span data-feather="book-open"></span>
                             Темы
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'tasks' ? 'active' : ''}}" href="{{route('tasks.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'tasks' ? 'active' : ''}}"
+                           href="{{route('tasks.index')}}">
                             <span data-feather="file"></span>
                             Тесты
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'categories' ? 'active' : ''}}" href="{{route('categories.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'categories' ? 'active' : ''}}"
+                           href="{{route('categories.index')}}">
                             <span data-feather="layers"></span>
                             Категории
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'levels' ? 'active' : ''}}" href="{{route('levels.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'levels' ? 'active' : ''}}"
+                           href="{{route('levels.index')}}">
                             <span data-feather="bar-chart-2"></span>
                             Уровни
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'institutes' ? 'active' : ''}}" href="{{route('institutes.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'institutes' ? 'active' : ''}}"
+                           href="{{route('institutes.index')}}">
                             <span data-feather="globe"></span>
                             Учебные заведения
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'branches' ? 'active' : ''}}" href="{{route('branches.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'branches' ? 'active' : ''}}"
+                           href="{{route('branches.index')}}">
                             <span data-feather="map"></span>
                             Специальности
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'groups' ? 'active' : ''}}" href="{{route('groups.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'groups' ? 'active' : ''}}"
+                           href="{{route('groups.index')}}">
                             <span data-feather="list"></span>
                             Группы
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{Request::segment(2) == 'users' ? 'active' : ''}}" href="{{route('users.index')}}">
+                        <a class="nav-link {{Request::segment(2) == 'users' ? 'active' : ''}}"
+                           href="{{route('users.index')}}">
                             <span data-feather="users"></span>
                             Пользователи
                         </a>

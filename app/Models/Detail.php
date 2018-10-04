@@ -14,4 +14,9 @@ class Detail extends Model
     {
         return $this->belongsTo(Result::class);
     }
+
+    public function getAnswersAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

@@ -45,7 +45,8 @@
 
 <div class="nav-scroller bg-white shadow-sm">
     <nav class="nav nav-underline">
-        <a class="nav-link active" href="{{route('user.stats')}}">Статистика</a>
+        <a class="nav-link active" href="{{route('user.stats')}}">Моя статистика</a>
+        <a class="nav-link active" href="{{route('user.stats.group')}}">Моя группа (статистика)</a>
         <a class="nav-link" href="#">
             Friends
             <span class="badge badge-pill bg-light align-text-bottom">27</span>
