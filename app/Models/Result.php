@@ -37,6 +37,16 @@ class Result extends Model
         return gmdate("H:i:s", $value);
     }
 
+    public function getStartAttribute($date)
+    {
+        return \Carbon\Carbon::createFromTimestamp($date)->format('d-m-Y H:i');
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y H:i');
+    }
+
     /*public function getMidRes($level)
     {
         $curRes = $this->where('user_id', Auth::user()->id)->where('level_id', $level)->get();

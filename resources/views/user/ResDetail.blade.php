@@ -7,7 +7,9 @@
             @include('includes.messages')
             <div class="lh-100 ">
                 <h2 class="text-center mb-0 text-white lh-100">
-                    Тест: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}</h2>
+                    Тест: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}.
+                    Уровень: {{$result->level->level}}
+                </h2>
             </div>
         </div>
 

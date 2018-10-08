@@ -2,6 +2,12 @@
 @section('title', 'Users')
 
 @section('body')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Пользователи</li>
+        </ol>
+    </nav>
     <div class="container text-center">
         @include('includes.messages')
         <a class="btn btn-success" href="{{route('users.create')}}">Добавить пользователя</a>

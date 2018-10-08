@@ -5,6 +5,13 @@
     <div class="container text-center">
         @include('includes.messages')
     </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.stats')}}">Статистика</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Группа {{$group->name}}</li>
+        </ol>
+    </nav>
     <div class="table-responsive">
 
 
@@ -13,18 +20,17 @@
             <tr>
                 <th>№</th>
                 <th>ФИО</th>
-                <th>Уровень</th>
                 <th>Группа</th>
+                <th>Уровень</th>
                 <th>Учебное заведение</th>
                 <th>Результаты теста</th>
             </tr>
             </thead>
             <tbody>
-            @forelse($users as $user)
+            @forelse($group->users as $user)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td><a href="{{route('admin.stats.student', $user->id)}}">{{$user->name}}</a></td>
-                    <td>{{isset($user->level->level) ? $user->level->level : 'Tests passed'}}</td>
                     <td>
                         @if(isset($user->group->name) )
                             <a href="{{route('admin.stats.group', $user->group->id)}}">{{$user->group->name}}</a>
@@ -32,6 +38,7 @@
                             Нет
                         @endif
                     </td>
+                    <td>{{isset($user->level->level) ? $user->level->level : 'Tests passed'}}</td>
                     <td>{{isset($user->group->institute->name) ? $user->group->institute->name : 'Нет'}}</td>
                     <td>{{$user->results->count() > 0 ? $user->getFinalRes() : 'Нет информации'}}</td>
 
@@ -43,8 +50,8 @@
             <tr>
                 <th>№</th>
                 <th>ФИО</th>
-                <th>Уровень</th>
                 <th>Группа</th>
+                <th>Уровень</th>
                 <th>Учебное заведение</th>
                 <th>Результаты теста</th>
             </tr>

@@ -2,6 +2,13 @@
 @section('title', 'Add topic')
 
 @section('body')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
+            <li class="breadcrumb-item"><a href="{{route('topics.index')}}">Темы</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Добавить</li>
+        </ol>
+    </nav>
     <div class="table-responsive">
         @include('includes.messages')
         <h2>Добавить тему</h2>

@@ -10,11 +10,17 @@
     <title>{{config('app.name')}} Dashboard — @yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/css/adminapp.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{asset('admin/css/dashboard.css')}}" rel="stylesheet">
+    @if(Request::segment(3) == 'graph')
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    @endif
 </head>
 
 <body>
@@ -66,13 +72,13 @@
                             Тесты
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{--<li class="nav-item">
                         <a class="nav-link {{Request::segment(2) == 'categories' ? 'active' : ''}}"
                            href="{{route('categories.index')}}">
                             <span data-feather="layers"></span>
                             Категории
                         </a>
-                    </li>
+                    </li>--}}
 
                     <li class="nav-item">
                         <a class="nav-link {{Request::segment(2) == 'levels' ? 'active' : ''}}"
@@ -113,6 +119,13 @@
                             Пользователи
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{Request::segment(2) == 'stats' ? 'active' : ''}}"
+                           href="{{route('admin.stats')}}">
+                            <span data-feather="activity"></span>
+                            Статистика
+                        </a>
+                    </li>
                 </ul>
 
             </div>
@@ -137,24 +150,10 @@
     });
 </script>
 
-<script>
-    $("#addAnswer").click(function () {
-        var cnt = $('textarea[data-info="answer"]').length + 1;
-        var oldDiv = $("#answers");
-        var newdiv = $('<div class="form-group"></div>');
-        var label = $('<label for="body">Ответ:</label>');
-        var textAr = $('<textarea class="form-control" data-info="answer" id="body" rows="3"></textarea>');
-        $(textAr).attr('name', 'answer[' + cnt + '][body]');
-        var label2 = $('<label>Правильный ответ </label>');
-        var correct = $('<input type="checkbox" value="1"> ');
-        $(correct).attr('name', 'answer[' + cnt + '][is_correct]');
-        label2.append(correct);
-        newdiv.append(label, textAr, label2);
-        oldDiv.append(newdiv);
-        //console.log(cnt);
-        //alert( "Handler for .click() called." );
-    });
-</script>
+
+@section('scriptSection')
+
+@show
 
 </body>
 </html>

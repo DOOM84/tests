@@ -2,6 +2,14 @@
 @section('title', 'Edit institute')
 
 @section('body')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
+            <li class="breadcrumb-item"><a href="{{route('institutes.index')}}">Учебные заведения</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{$institute->name}}</li>
+            <li class="breadcrumb-item active" aria-current="page">Изменить</li>
+        </ol>
+    </nav>
     <div class="table-responsive">
         @include('includes.messages')
         <h2>Изменить учебное заведение</h2>

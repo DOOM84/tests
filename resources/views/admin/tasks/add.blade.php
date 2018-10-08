@@ -2,6 +2,13 @@
 @section('title', 'Add task')
 
 @section('body')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
+            <li class="breadcrumb-item"><a href="{{route('tasks.index')}}">Тесты</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Добавить</li>
+        </ol>
+    </nav>
     <div class="table-responsive">
         @include('includes.messages')
         <h2>Добавить тест</h2>
@@ -67,4 +74,25 @@
             </div>
         </form>
     </div>
+@endsection
+
+@section('scriptSection')
+    <script>
+        $("#addAnswer").click(function () {
+            var cnt = $('textarea[data-info="answer"]').length + 1;
+            var oldDiv = $("#answers");
+            var newdiv = $('<div class="form-group"></div>');
+            var label = $('<label for="body">Ответ:</label>');
+            var textAr = $('<textarea class="form-control" data-info="answer" id="body" rows="3"></textarea>');
+            $(textAr).attr('name', 'answer[' + cnt + '][body]');
+            var label2 = $('<label>Правильный ответ </label>');
+            var correct = $('<input type="checkbox" value="1"> ');
+            $(correct).attr('name', 'answer[' + cnt + '][is_correct]');
+            label2.append(correct);
+            newdiv.append(label, textAr, label2);
+            oldDiv.append(newdiv);
+            //console.log(cnt);
+            //alert( "Handler for .click() called." );
+        });
+    </script>
 @endsection

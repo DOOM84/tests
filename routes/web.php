@@ -27,6 +27,14 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin'], function () {
     Route::resource('/admin/institutes', 'InstituteController');
     Route::resource('/admin/branches', 'BranchController');
     Route::get('/admin/deleteAnswer/{id}', 'TaskController@deleteAnswer')->name('admin.deleteAnswer');
+    Route::get('/admin/stats', 'StatsController@index')->name('admin.stats');
+    Route::get('/admin/stats/graph/student/{user}', 'StatsController@graphStud')->name('admin.stats.graph.student');
+    Route::get('/admin/stats/graph/group/{group}', 'StatsController@graphGRoup')->name('admin.stats.graph.group');
+    Route::get('/admin/stats/student/{user}', 'StatsController@student')->name('admin.stats.student');
+    Route::get('/admin/stats/group/{group}', 'StatsController@group')->name('admin.stats.group');
+    Route::get('/admin/stats/show/{result}', 'StatsController@show')->name('admin.stats.show');
+    Route::get('/admin/stats/student/detail/{result}', 'StatsController@detail')->name('admin.stats.student.detail');
+    Route::post('/admin/stats/{user}/graphStudByDate', 'StatsController@graphStudByDate')->name('admin.stats.graphStudByDate');
 });
 
 

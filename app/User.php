@@ -125,6 +125,23 @@ class User extends Authenticatable
         return round($curRes->sum('result') / $curRes->count(), 0);
     }
 
+    public function getFinalRes()
+    {
+        $finRes = $this->results;
+        return round($finRes->sum('result') / $finRes->count(), 0);
+    }
+
+    public function getDistinctDatesForChart()
+    {
+        $dates = $this->results()->select('updated_at')
+            ->orderBy('updated_at', 'ASC')->pluck('updated_at')->toArray();
+        $datesRes = [];
+        foreach ($dates as $item) {
+            $datesRes[] = substr($item, 0, 10);
+        }
+        return array_unique($datesRes);
+    }
+
 
 
 }

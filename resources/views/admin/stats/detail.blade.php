@@ -2,56 +2,56 @@
 @section('title', 'Users')
 
 @section('body')
-    <div class="container text-center">
+    <div class="{{--d-flex --}} p-3 my-3 bg-purple rounded shadow-sm ">
         @include('includes.messages')
-    </div>
-    <div class="lh-100 ">
-        <h4 class="text-center mb-0 lh-100">Статистика</h4>
-    </div>
-    <div class="table-responsive">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
+                <li class="breadcrumb-item"><a href="{{route('admin.stats')}}">Статистика</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{route('admin.stats.group', $result->user->group->id)}}">
+                        Группа {{$result->user->group->name}}
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="{{route('admin.stats.student', $result->user->id)}}">
+                        {{$result->user->name}}</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}} (Уровень: {{$result->level->level}})
+                </li>
+            </ol>
+        </nav>
 
+    </div>
 
-        <table id="myTable" class="table table-striped display">
-            <thead>
-            <tr>
-                <th>№</th>
-                <th>ФИО</th>
-                <th>Уровень</th>
-                <th>Группа</th>
-                <th>Учебное заведение</th>
-                <th>Результаты теста</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($users as $user)
+    <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
+            <table class="table">
+                <thead class="thead-light">
                 <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td><a href="{{route('admin.stats.student', $user->id)}}">{{$user->name}}</a></td>
-                    <td>{{isset($user->level->level) ? $user->level->level : 'Tests passed'}}</td>
-                    <td>
-                        @if(isset($user->group->name) )
-                            <a href="{{route('admin.stats.group', $user->group->id)}}">{{$user->group->name}}</a>
-                        @else
-                            Нет
+                    <th scope="col">Тест</th>
+                    <th scope="col">Время работы</th>
+                    <th scope="col">Кол-во правильных ответов</th>
+                    <th scope="col">Кол-во неправильных ответов</th>
+                    <th scope="col">Оценка/Балл</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="col">
+                        {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}
+                    </td>
+                    <td scope="col">
+                        {{$result->duration}}
+                    </td>
+                    <td scope="col">{{$result->detail->correct}}</td>
+                    <td scope="col">{{$result->detail->incorrect}}
+                        @if($result->detail->incorrect > 0)
+                            <a href="{{route('admin.stats.show', $result->id)}}">Показать</a>
                         @endif
                     </td>
-                    <td>{{isset($user->group->institute->name) ? $user->group->institute->name : 'Нет'}}</td>
-                    <td>{{$user->results->count() > 0 ? $user->getFinalRes() : 'Нет информации'}}</td>
-
+                    <td scope="col">{{$result->value}}/{{$result->result}}</td>
                 </tr>
-            @empty
-            @endforelse
-            </tbody>
-            <tfoot>
-            <tr>
-                <th>№</th>
-                <th>ФИО</th>
-                <th>Уровень</th>
-                <th>Группа</th>
-                <th>Учебное заведение</th>
-                <th>Результаты теста</th>
-            </tr>
-            </tfoot>
-        </table>
+                </tbody>
+            </table>
     </div>
 @endsection
