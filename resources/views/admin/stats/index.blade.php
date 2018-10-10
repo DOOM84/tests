@@ -23,7 +23,6 @@
                 <th>Уровень</th>
                 <th>Группа</th>
                 <th>Учебное заведение</th>
-                <th>Результаты теста</th>
             </tr>
             </thead>
             <tbody>
@@ -40,7 +39,6 @@
                         @endif
                     </td>
                     <td>{{isset($user->group->institute->name) ? $user->group->institute->name : 'Нет'}}</td>
-                    <td>{{$user->results->count() > 0 ? $user->getFinalRes() : 'Нет информации'}}</td>
 
                 </tr>
             @empty
@@ -53,7 +51,6 @@
                 <th>Уровень</th>
                 <th>Группа</th>
                 <th>Учебное заведение</th>
-                <th>Результаты теста</th>
             </tr>
             </tfoot>
         </table>

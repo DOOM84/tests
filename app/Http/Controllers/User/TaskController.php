@@ -12,9 +12,6 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        /*$tasks = Auth::user()->level->tasks()->take(50)->inRandomOrder()->get();
-        dd($tasks);*/
-
         if (!$request->topic || $request->isMethod('get')) return redirect()->back();
 
         $topic = Null;

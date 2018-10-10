@@ -6,7 +6,7 @@
         },
 
         title: {
-            text: '{{$user->name}}'
+            text: 'Группа {{$group->name}}'
         },
 
         subtitle: {
@@ -18,8 +18,8 @@
                 text: 'Дата и время прохождения'
             },
             categories: [
-                @foreach($user->results/*->sortBy('updated_at')*/ as $result)
-                    '{{$result->updated_at}}',
+                @foreach($group->results/*->sortBy('updated_at')*/ as $result)
+                    '{{$result->user->name}} ({{$result->updated_at}})',
                 @endforeach
             ]
         },
@@ -47,7 +47,7 @@
         series: [{
             name: 'Успеваемость',
             data: [
-                    @foreach($user->results/*->sortBy('updated_at')*/ as $result)
+                    @foreach($group->results/*->sortBy('updated_at')*/ as $result)
                 ['Тема: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}} ({{$result->level->level}})', {{$result->result}}],
                 @endforeach
             ],

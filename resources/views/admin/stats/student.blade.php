@@ -17,6 +17,11 @@
     </nav>
 
     <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
+        @if($user->results->count() > 0)
+            <a class="btn btn-info mb-2" href="{{route('admin.stats.graph.student', $user->id)}}">
+                Графическая информация
+            </a>
+        @else @endif
 
         <table class="table">
             <thead>
@@ -68,11 +73,7 @@
 
             @endforelse
         </table>
-        @if($user->results->count() > 0)
-            <a class="btn btn-info mb-2" href="{{route('admin.stats.graph.student', $user->id)}}">
-                Графическая информация
-            </a>
-        @else @endif
+
 
     </div>
 

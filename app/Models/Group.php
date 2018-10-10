@@ -16,6 +16,11 @@ class Group extends Model
         return $this->hasMany(User::class);
     }
 
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
+
     public function institute()
     {
         return $this->belongsTo(Institute::class);
@@ -42,5 +47,41 @@ class Group extends Model
         $this->fill($request);
         $this->save();
 
+    }
+
+    public function getDistinctDatesForChart()
+    {
+        $dates = $this->results()->select('updated_at')
+            ->orderBy('updated_at', 'ASC')->pluck('updated_at')->toArray();
+        $datesRes = [];
+        foreach ($dates as $item) {
+            $datesRes[] = substr($item, 0, 10);
+        }
+        return array_unique($datesRes);
+    }
+
+
+    public function graphForGroup()
+    {
+        return $this->load([
+            'results' => function ($query) {
+                $query->orderBy('updated_at', 'asc');
+            },
+            'results.topic',
+            'results.level',
+            'results.user',
+        ]);
+    }
+
+    public function graphForGroupByDate($start, $end)
+    {
+        return $this->load(['results' => function ($query) use ($start, $end) {
+            $query->whereBetween('updated_at', [$start, $end])
+                ->orderBy('updated_at', 'asc');
+        },
+            'results.topic',
+            'results.level',
+            'results.user',
+        ]);
     }
 }

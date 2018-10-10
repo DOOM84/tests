@@ -65,6 +65,7 @@ class User extends Authenticatable
             ->firstOrCreate(['topic_id' => $topic_id, 'level_id' => $this->level_id]);
         $res->update(['topic_id' => $topic_id,
             'level_id' => $this->level_id,
+            'group_id' => $this->group_id,
             'is_completed' => $is_compl,
             'value' => $value,
             'ects' => $ects,
@@ -91,10 +92,14 @@ class User extends Authenticatable
     public function reduceLevel()
     {
         $compl = $this->results()
-            ->where('level_id', $this->level->id)->where('is_completed', Null)->count();
+            ->where('level_id', $this->level->id)
+            ->where('is_completed', Null)->count();
+        $generalTest = $this->results()
+            ->where('level_id', $this->level->id)->where('topic_id', Null)
+            ->where('is_completed', Null)->count();
         $topicsLev = $this->level->topics->where('status', 1)->count();
 
-        if ($compl == $topicsLev) {
+        if ($compl == ($topicsLev + $generalTest)) {
             $this->decrement('level_id');
             $this->save();
         }
@@ -109,9 +114,11 @@ class User extends Authenticatable
 
         $compl = $this->results()
             ->where('level_id', $this->level->id)->where('is_completed', 1)->count();
+        $generalTest = $this->results()
+            ->where('level_id', $this->level->id)->where('topic_id', Null)
+            ->where('is_completed', 1)->count();
         $topicsLev = $this->level->topics->where('status', 1)->count();
-
-        if ($compl == $topicsLev) {
+        if ($compl == ($topicsLev + $generalTest)) {
             $this->increment('level_id');
             $this->save();
         }
@@ -140,6 +147,27 @@ class User extends Authenticatable
             $datesRes[] = substr($item, 0, 10);
         }
         return array_unique($datesRes);
+    }
+
+    public function graphForStud()
+    {
+        return $this->load(['results' => function ($query) {
+            $query->orderBy('updated_at', 'asc');
+        },
+            'results.topic',
+            'results.level',
+        ]);
+    }
+
+    public function graphForStudByDate($start, $end)
+    {
+        return $this->load(['results' => function ($query) use ($start, $end) {
+            $query->whereBetween('updated_at', [$start, $end])
+                ->orderBy('updated_at', 'asc');
+        },
+            'results.topic',
+            'results.level',
+        ]);
     }
 
 

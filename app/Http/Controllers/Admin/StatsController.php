@@ -44,7 +44,9 @@ class StatsController extends Controller
 
     public function graphStud(User $user)
     {
+        $user->graphForStud();
         $dates = $user->getDistinctDatesForChart();
+
         return view('admin.stats.graphStud', compact('user', 'dates'));
     }
 
@@ -52,12 +54,12 @@ class StatsController extends Controller
     {
         $start = \Carbon\Carbon::createFromFormat('d-m-Y', $request->from)->startOfDay();
         $end = \Carbon\Carbon::createFromFormat('d-m-Y', $request->to)->endOfDay();
-        $resForChart = $user->results()->whereBetween('updated_at', [$start, $end])->get();
+        $user->graphForStudByDate($start, $end);
 
         return View::make('admin._ajaxGraphStudByDate')->with(
             [
                 'user' => $user,
-                'results' => $resForChart,
+                /*'results' => $resForChart,*/
                 'from' => $request->from,
                 'to' => $request->to
             ]
@@ -66,7 +68,26 @@ class StatsController extends Controller
 
     public function graphGroup(Group $group)
     {
-        $group->with('users');
-        return view('admin.stats.graphGroup', compact('group'));
+        $group->graphForGroup();
+        $dates = $group->getDistinctDatesForChart();
+
+        return view('admin.stats.graphGroup', compact('group', 'dates'));
+    }
+
+    public function graphGroupByDate(Group $group, Request $request)
+    {
+
+        $start = \Carbon\Carbon::createFromFormat('d-m-Y', $request->from)->startOfDay();
+        $end = \Carbon\Carbon::createFromFormat('d-m-Y', $request->to)->endOfDay();
+        $group->graphForGroupByDate($start, $end);
+
+        return View::make('admin._ajaxGraphGroupByDate')->with(
+            [
+                'group' => $group,
+                /*'results' => $resForChart,*/
+                'from' => $request->from,
+                'to' => $request->to
+            ]
+        );
     }
 }

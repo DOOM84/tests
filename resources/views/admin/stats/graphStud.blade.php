@@ -60,7 +60,7 @@
                         text: 'Дата и время прохождения'
                     },
                     categories: [
-                        @foreach($user->results->sortBy('updated_at') as $result)
+                        @foreach($user->results/*->sortBy('updated_at')*/ as $result)
                             '{{$result->updated_at}}',
                         @endforeach
 
@@ -90,7 +90,7 @@
                 series: [{
                     name: 'Успеваемость',
                     data: [
-                            @foreach($user->results->sortBy('updated_at') as $result)
+                            @foreach($user->results/*->sortBy('updated_at')*/ as $result)
                         ['Тема: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}} ({{$result->level->level}})', {{$result->result}}],
                         @endforeach
                     ],

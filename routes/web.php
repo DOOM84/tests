@@ -29,12 +29,13 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin'], function () {
     Route::get('/admin/deleteAnswer/{id}', 'TaskController@deleteAnswer')->name('admin.deleteAnswer');
     Route::get('/admin/stats', 'StatsController@index')->name('admin.stats');
     Route::get('/admin/stats/graph/student/{user}', 'StatsController@graphStud')->name('admin.stats.graph.student');
-    Route::get('/admin/stats/graph/group/{group}', 'StatsController@graphGRoup')->name('admin.stats.graph.group');
+    Route::get('/admin/stats/graph/group/{group}', 'StatsController@graphGroup')->name('admin.stats.graph.group');
     Route::get('/admin/stats/student/{user}', 'StatsController@student')->name('admin.stats.student');
     Route::get('/admin/stats/group/{group}', 'StatsController@group')->name('admin.stats.group');
     Route::get('/admin/stats/show/{result}', 'StatsController@show')->name('admin.stats.show');
     Route::get('/admin/stats/student/detail/{result}', 'StatsController@detail')->name('admin.stats.student.detail');
     Route::post('/admin/stats/{user}/graphStudByDate', 'StatsController@graphStudByDate')->name('admin.stats.graphStudByDate');
+    Route::post('/admin/stats/{group}/graphGroupByDate', 'StatsController@graphGroupByDate')->name('admin.stats.graphGroupByDate');
 });
 
 
@@ -49,6 +50,10 @@ Route::group(['namespace' => 'User'], function () {
         Route::get('/group', 'StatsController@group')->name('user.stats.group');
         Route::get('/detail/{result}', 'StatsController@detail')->name('user.stats.detail');
         Route::get('/show/{result}', 'StatsController@show')->name('user.stats.show');
+        Route::get('/graph/student', 'StatsController@graphStud')->name('user.stats.graph.student');
+        Route::get('/graph/group', 'StatsController@graphGroup')->name('user.stats.graph.group');
+        Route::post('/graphStudByDate', 'StatsController@graphStudByDate')->name('user.stats.graphStudByDate');
+        Route::post('/graphGroupByDate', 'StatsController@graphGroupByDate')->name('user.stats.graphGroupByDate');
     });
 
 

@@ -6,7 +6,7 @@
         <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
             @include('includes.messages')
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Level {{Auth::user()->level->level}}.
+                <h2 class="text-center mb-0 text-white lh-100">Level: {{Auth::user()->level->level}}.
                     {{isset($topic->name) ? 'Topic: ' .$topic->name : ''}}</h2>
             </div>
             <p class="text-right fixed-bottom" id="demo"></p>

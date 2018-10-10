@@ -9,12 +9,18 @@ use Auth;
 class Result extends Model
 {
     protected $fillable = [
-        'user_id', 'topic_id', 'level_id', 'is_completed', 'value', 'ects', 'natValue', 'result', 'start', 'duration'
+        'user_id', 'group_id', 'topic_id', 'level_id', 'is_completed', 'value',
+        'ects', 'natValue', 'result', 'start', 'duration'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 
     public function topic()

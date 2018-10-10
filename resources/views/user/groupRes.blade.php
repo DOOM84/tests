@@ -14,11 +14,17 @@
             @guest
                 Ви не можете бачити цю iнформацiю
             @else
+                @if(Auth::user()->results->count() > 0)
+                    <a class="btn btn-primary mb-2" href="{{route('user.stats.graph.group')}}">
+                        Графическая информация
+                    </a>
+                @else @endif
 
                 <table class="table">
                     <thead class="thead-light">
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Текущий тест</th>
                         <th scope="col">Языковой уровень</th>
                         <th scope="col">Дата и время работы</th>
                         <th scope="col">Результаты теста</th>
@@ -28,12 +34,15 @@
                     @forelse(Auth::user()->group->users->sortBy('name') as $user)
                         <thead class="thead-dark">
                         <tr>
-                            <th colspan="4" scope="col">{{$user->name}}</th>
+                            <th colspan="5" scope="col">{{$user->name}}</th>
                         </tr>
                         </thead>
                         @forelse($user->results->sortByDesc('level_id') as $result)
                             <tr>
                                 <td scope="col">{{$loop->iteration}}</td>
+                                <td scope="col">
+                                    {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}
+                                </td>
                                 <td scope="col">
                                     {{$result->level->level}}
                                 </td>
@@ -42,7 +51,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" scope="col">Нет результатов</td>
+                                <td colspan="5" scope="col">Нет результатов</td>
                             </tr>
 
                         @endforelse
