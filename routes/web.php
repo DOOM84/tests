@@ -44,6 +44,7 @@ Route::group(['namespace' => 'User'], function () {
     Route::get('/', 'HomeController@index')->name('user.index');
     Route::any('/tasks/', 'TaskController@index')->name('user.tasks')->middleware('restrictToGuest');
     Route::post('/getResult', 'TaskController@getResult')->name('getResult')->middleware('restrictToGuest');
+    Route::post('/getMes', 'TaskController@getMes')->name('getMes')->middleware('restrictToGuest');
 
     Route::prefix('stats')->group(function () {
         Route::get('/', 'StatsController@index')->name('user.stats');

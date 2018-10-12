@@ -59,7 +59,6 @@ class StatsController extends Controller
         return View::make('admin._ajaxGraphStudByDate')->with(
             [
                 'user' => $user,
-                /*'results' => $resForChart,*/
                 'from' => $request->from,
                 'to' => $request->to
             ]
@@ -84,7 +83,6 @@ class StatsController extends Controller
         return View::make('admin._ajaxGraphGroupByDate')->with(
             [
                 'group' => $group,
-                /*'results' => $resForChart,*/
                 'from' => $request->from,
                 'to' => $request->to
             ]

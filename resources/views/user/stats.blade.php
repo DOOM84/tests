@@ -5,9 +5,11 @@
     <main role="main" class="container">
         <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm ">
             @include('includes.messages')
+
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Статистика. {{Auth::user()->name}}</h2>
+                <h2 class="text-center mb-0 text-white lh-100">Статистика. @auth {{Auth::user()->name}} @endauth</h2>
             </div>
+
         </div>
 
         <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
@@ -23,6 +25,7 @@
                     </div>
                 @else @endif
                 <div id="res">
+                    <h3 id="tableName" class="d-none">Статистика. {{Auth::user()->name}}</h3>
                     @forelse(Auth::user()->results->sortByDesc('level_id')->groupBy('level_id') as $level => $results)
                         <table class="table">
                             <thead class="thead-dark">
@@ -78,23 +81,7 @@
 @endsection
 
 @section('scriptSection')
-    <script>
-        function printData() {
-            //window.print();
-            var divToPrint = document.getElementById("res");
-            newWin = window.open("");
-            newWin.document.write(divToPrint.outerHTML);
-            console.log(divToPrint.outerHTML);
-            newWin.print();
-            newWin.close();
-        }
-
-        /*$('button').on('click',function(){
-            printData();
-        })*/
-
-    </script>
-
+    @include('user._print')
 @endsection
 
 

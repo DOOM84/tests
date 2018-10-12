@@ -18,10 +18,10 @@ class StatsController extends Controller
 
     public function detail(Result $result)
     {
-        if ($result->user->id != Auth::user()->id){
+        if ($result->user->id != Auth::user()->id) {
             return abort('404');
         }
-       $result->with('detail')->get();
+        $result->with('detail')->get();
 
         return view('user.ResDetail', compact('result'));
 
@@ -30,7 +30,7 @@ class StatsController extends Controller
 
     public function show(Result $result)
     {
-        if ($result->user->id != Auth::user()->id){
+        if ($result->user->id != Auth::user()->id) {
             return abort('404');
         }
         $result->with('detail')->get();
@@ -42,7 +42,6 @@ class StatsController extends Controller
     {
         return view('user.groupRes');
     }
-
 
 
     public function graphStud()
@@ -78,7 +77,6 @@ class StatsController extends Controller
 
     public function graphGroupByDate(Request $request)
     {
-
         $start = \Carbon\Carbon::createFromFormat('d-m-Y', $request->from)->startOfDay();
         $end = \Carbon\Carbon::createFromFormat('d-m-Y', $request->to)->endOfDay();
         $group = Auth::user()->group->graphForGroupByDate($start, $end);

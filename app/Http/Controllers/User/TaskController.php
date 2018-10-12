@@ -4,12 +4,14 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Answer;
 use App\Models\Level;
+use App\Traits\listMsg;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 
 class TaskController extends Controller
 {
+    use listMsg;
     public function index(Request $request)
     {
         if (!$request->topic || $request->isMethod('get')) return redirect()->back();
@@ -171,6 +173,23 @@ class TaskController extends Controller
         }
 
         return json_encode($arr);
+    }
+
+    public function getMes(Request $request)
+    {
+        $cntAnsw = (count($request->answers));
+        $result = 0;
+        foreach ($request->answers as $answer) {
+            $res = Answer::where('id', $answer)->first();
+            if ($res->is_correct) {
+                $result++;
+            }
+        }
+        $msg = $this->getMsg($cntAnsw, $result);
+
+        if($msg) return $msg.' '.$result;
+
+        //return $result;
     }
 
 

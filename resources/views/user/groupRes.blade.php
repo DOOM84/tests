@@ -6,7 +6,9 @@
         <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm ">
             @include('includes.messages')
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Статистика группы {{Auth::user()->group->name}}</h2>
+                <h2 class="text-center mb-0 text-white lh-100">
+                    Статистика группы @auth {{Auth::user()->group->name}} @endauth
+                </h2>
             </div>
         </div>
 
@@ -18,8 +20,12 @@
                     <a class="btn btn-primary mb-2" href="{{route('user.stats.graph.group')}}">
                         Графическая информация
                     </a>
+                    <div class="text-right">
+                        <a href="#"><i data-feather="printer" onclick="printData()"></i></a>
+                    </div>
                 @else @endif
-
+                    <div id="res">
+                        <h3 id="tableName" class="d-none">Статистика группы {{Auth::user()->group->name}}</h3>
                 <table class="table">
                     <thead class="thead-light">
                     <tr>
@@ -63,7 +69,12 @@
                         </tbody>
                 </table>
             @endguest
+                    </div>
 
         </div>
     </main>
+@endsection
+
+@section('scriptSection')
+    @include('user._print')
 @endsection

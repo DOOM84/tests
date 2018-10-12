@@ -10493,3 +10493,38 @@ a.text-dark:focus {
   background-color: #f4b0af;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.modal-content {
+  background-color: green;
+  margin: 15% auto;
+  padding: 20px;
+  color: white;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+.close {
+  color: black;
+  float: right;
+  text-align: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
