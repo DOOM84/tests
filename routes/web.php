@@ -49,12 +49,13 @@ Route::group(['namespace' => 'User'], function () {
     Route::prefix('stats')->group(function () {
         Route::get('/', 'StatsController@index')->name('user.stats');
         Route::get('/group', 'StatsController@group')->name('user.stats.group');
-        Route::get('/detail/{result}', 'StatsController@detail')->name('user.stats.detail');
-        Route::get('/show/{result}', 'StatsController@show')->name('user.stats.show');
-        Route::get('/graph/student', 'StatsController@graphStud')->name('user.stats.graph.student');
-        Route::get('/graph/group', 'StatsController@graphGroup')->name('user.stats.graph.group');
+        Route::get('/detail/{result}', 'StatsController@detail')->name('user.stats.detail')->middleware('restrictToGuest');
+        Route::get('/show/{result}', 'StatsController@show')->name('user.stats.show')->middleware('restrictToGuest');
+        Route::get('/graph/student', 'StatsController@graphStud')->name('user.stats.graph.student')->middleware('restrictToGuest');
+        Route::get('/graph/group', 'StatsController@graphGroup')->name('user.stats.graph.group')->middleware('restrictToGuest');
         Route::post('/graphStudByDate', 'StatsController@graphStudByDate')->name('user.stats.graphStudByDate');
         Route::post('/graphGroupByDate', 'StatsController@graphGroupByDate')->name('user.stats.graphGroupByDate');
+        Route::post('/sendTable', 'MailController@sendTable')->name('user.sendTable');
     });
 
 

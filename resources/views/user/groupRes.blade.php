@@ -22,48 +22,49 @@
                     </a>
                     <div class="text-right">
                         <a href="#"><i data-feather="printer" onclick="printData()"></i></a>
+                        <a href="#"><i data-feather="mail" onclick="mailData()"></i></a>
                     </div>
                 @else @endif
                     <div id="res">
                         <h3 id="tableName" class="d-none">Статистика группы {{Auth::user()->group->name}}</h3>
-                <table class="table">
+                <table class="table" cellpadding="7" border="2" width="100%">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Текущий тест</th>
-                        <th scope="col">Языковой уровень</th>
-                        <th scope="col">Дата и время работы</th>
-                        <th scope="col">Результаты теста</th>
+                        <th scope="col" align="center">#</th>
+                        <th scope="col" align="center">Текущий тест</th>
+                        <th scope="col" align="center">Языковой уровень</th>
+                        <th scope="col" align="center">Дата и время работы</th>
+                        <th scope="col" align="center">Результаты теста</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse(Auth::user()->group->users->sortBy('name') as $user)
                         <thead class="thead-dark">
                         <tr>
-                            <th colspan="5" scope="col">{{$user->name}}</th>
+                            <th colspan="5" scope="col" align="center">{{$user->name}}</th>
                         </tr>
                         </thead>
                         @forelse($user->results->sortByDesc('level_id') as $result)
                             <tr>
-                                <td scope="col">{{$loop->iteration}}</td>
-                                <td scope="col">
+                                <td scope="col" align="center">{{$loop->iteration}}</td>
+                                <td scope="col" align="center">
                                     {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}
                                 </td>
-                                <td scope="col">
+                                <td scope="col" align="center">
                                     {{$result->level->level}}
                                 </td>
-                                <td scope="col">{{$result->updated_at}}</td>
-                                <td scope="col">{{$result->result}}</td>
+                                <td scope="col" align="center">{{$result->updated_at}}</td>
+                                <td scope="col" align="center">{{$result->result}}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" scope="col">Нет результатов</td>
+                                <td colspan="5" scope="col" align="center">Нет результатов</td>
                             </tr>
 
                         @endforelse
                     @empty
                         <tr>
-                            <td colspan="4">Нет результатов</td>
+                            <td colspan="5" align="center">Нет результатов</td>
                         </tr>
                         @endforelse
                         </tbody>
@@ -76,5 +77,5 @@
 @endsection
 
 @section('scriptSection')
-    @include('user._print')
+    @include('user._printOrMail')
 @endsection

@@ -24,17 +24,16 @@
 </head>
 
 <body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+{{--<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{route('admin.home')}}">{{env('APP_NAME')}}</a>
-    {{--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">--}}
+    --}}{{--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">--}}{{--
     <ul class="list-inline">
         <li class=" list-inline-item">
             <span class="nav-link text-white">Welcome, {{Auth::user()->name}}</span>
         </li>
         <li class="list-inline-item">
             <a class="nav-link text-white" href="{{ route('logout') }}"
-               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
             </a>
 
@@ -43,12 +42,38 @@
             </form>
         </li>
     </ul>
+</nav>--}}
+
+<nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top p-0">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{route('admin.home')}}">{{env('APP_NAME')}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class=" list-inline-item">
+                    <span class="nav-link text-white">Welcome, {{Auth::user()->name}}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+                <li class="nav-item d-md-none"><a href="#" class="nav-link menu">Спрятать/показать левую панель</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -131,7 +156,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 p-0 main-page">
             <h1 class="h2 text-center">Панель управления</h1>
             <hr>
             @yield('body')
@@ -147,6 +172,21 @@
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable();
+    });
+
+    $(function () {
+        $('.menu').on('click', function () {
+            if ($('.sidebar').is(':visible')) {
+                $('.sidebar').animate({'width': '0px'}, 'slow', function () {
+                    $('.sidebar').hide();
+                });
+                $('.main-page').animate({'padding-left': '0px'}, 'slow');
+            } else {
+                $('.sidebar').show();
+                $('.sidebar').animate({'width': '240px'}, 'slow');
+                $('.main-page').animate({'padding-left': '240px'}, 'slow');
+            }
+        });
     });
 </script>
 

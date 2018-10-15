@@ -14,22 +14,23 @@ class TaskController extends Controller
     use listMsg;
     public function index(Request $request)
     {
-        if (!$request->topic || $request->isMethod('get')) return redirect()->back();
+        if (!$request->topic || $request->isMethod('get')) return redirect()->route('user.index');
 
         $topic = Null;
         $tasks = Null;
 
+        if (Auth::user()->level->ordered == 3) {
+            if (Auth::user()->attempts > (Auth::user()->level->topics->where('status', 1)->count() + 1) * 2) {
+                return redirect()->route('user.index')->with('error', 'Перевищено кількість спроб.');
+            } else {
+                Auth::user()->increment('attempts');
+                Auth::user()->save();
+            }
+        }
+
         if ($request->topic == 'general') {
             $tasks = Auth::user()->level->tasks()->with('answers')->distinct()->inRandomOrder()->take(50)->get();
         } else {
-            if (Auth::user()->level->ordered == 3) {
-                if (Auth::user()->attempts > Auth::user()->level->topics->count() * 2) {
-                    return redirect()->route('user.index')->with('error', 'Перевищено кількість спроб.');
-                } else {
-                    Auth::user()->increment('attempts');
-                    Auth::user()->save();
-                }
-            }
             //$topic = Topic::where('level_id', '<=', Auth::user()->level->id)->where('id', $request->topic)->first();
             $topic = Auth::user()->level->topics->where('id', $request->topic)->first()
                 ->load(['tasks' => function ($query) {
@@ -185,9 +186,10 @@ class TaskController extends Controller
                 $result++;
             }
         }
+        //$myLastElement = end(array_values($yourArray));
         $msg = $this->getMsg($cntAnsw, $result);
 
-        if($msg) return $msg.' '.$result;
+        if($msg) return $msg/*.' '.$result*/;
 
         //return $result;
     }

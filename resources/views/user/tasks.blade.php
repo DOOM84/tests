@@ -186,9 +186,15 @@
         }, 0);
 
         var triggerFunc = true;
+        var currenCount = 0;
 
         $('input:radio[type=radio]').change(function () {
             var countAn = $("input[type=radio]:checked");
+
+            if (countAn.length == currenCount){
+                return false;
+            }
+            currenCount = countAn.length;
 
             bbb(countAn, 3);
             bbb(countAn, 4);
@@ -296,6 +302,16 @@
                 }
                 getMes(sliced, true);
             }
+
+            /*if (countAn.length - shift == param) {
+                var key = 0;
+                var sliced = [];
+                for (var i = shift; i < (shift + param); i++) {
+                    sliced[key] = countAn[i];
+                    key++
+                }
+                getMes(sliced, true);
+            }*/
         }
     </script>
 

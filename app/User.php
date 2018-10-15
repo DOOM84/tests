@@ -99,7 +99,7 @@ class User extends Authenticatable
             ->where('is_completed', Null)->count();
         $topicsLev = $this->level->topics->where('status', 1)->count();
 
-        if ($compl == ($topicsLev + $generalTest)) {
+        if ($compl == ($topicsLev + $generalTest) && $this->level->id > 1) {
             $this->decrement('level_id');
             $this->save();
         }
