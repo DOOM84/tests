@@ -12,6 +12,7 @@ use Auth;
 class TaskController extends Controller
 {
     use listMsg;
+
     public function index(Request $request)
     {
         if (!$request->topic || $request->isMethod('get')) return redirect()->route('user.index');
@@ -160,6 +161,7 @@ class TaskController extends Controller
             Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
+            //dd($res2send->topic ? $res2send->topic->name : 'Общий тест');
         }
 
         if ((Auth::user()->level_id) > Level::max('ordered')) {
@@ -189,9 +191,7 @@ class TaskController extends Controller
         //$myLastElement = end(array_values($yourArray));
         $msg = $this->getMsg($cntAnsw, $result);
 
-        if($msg) return $msg/*.' '.$result*/;
-
-        //return $result;
+        if ($msg) return $msg;/*.' '.$result*/
     }
 
 

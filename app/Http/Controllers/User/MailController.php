@@ -11,7 +11,6 @@ class MailController extends Controller
 {
     public function sendTable()
     {
-        //dd($request->table);
         Mail::send(new SendMail());
     }
 }

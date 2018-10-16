@@ -1,5 +1,5 @@
 @component('mail::message')
-# Здравствуйте!
+# Здравствуйте, {{Auth::user()->name}}!
 
 {!! $table !!}
 

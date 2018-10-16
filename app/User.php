@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Mail\SendRes;
 use App\Models\Detail;
 use App\Models\Group;
 use App\Models\Institute;
@@ -10,6 +11,7 @@ use App\Models\Result;
 use App\Notifications\MailResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -82,9 +84,8 @@ class User extends Authenticatable
             'incorrect' => $incorrect
         ]);
 
-
-
-
+        Mail::send(new SendRes($res));
+        return true;
 
         //$res->detail()->save($detail);
     }
