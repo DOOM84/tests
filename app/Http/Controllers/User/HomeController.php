@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
@@ -20,5 +22,12 @@ class HomeController extends Controller
 
         return view('user.index', compact('topics', 'results'));
         
+    }
+
+    public function setLocale(Request $request, $locale)
+    {
+        $cookie = cookie('setloc', $locale, time()+60*60*24*365);
+        return redirect()->back()->cookie($cookie);
+
     }
 }

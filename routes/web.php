@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin'], function () {
 });
 
 
-Route::group(['namespace' => 'User'], function () {
+Route::group(['namespace' => 'User', 'middleware'=>'cookie'], function () {
 
     Route::get('/', 'HomeController@index')->name('user.index');
     Route::any('/tasks/', 'TaskController@index')->name('user.tasks')->middleware('restrictToGuest');
@@ -56,6 +56,7 @@ Route::group(['namespace' => 'User'], function () {
         Route::post('/graphStudByDate', 'StatsController@graphStudByDate')->name('user.stats.graphStudByDate');
         Route::post('/graphGroupByDate', 'StatsController@graphGroupByDate')->name('user.stats.graphGroupByDate');
         Route::post('/sendTable', 'MailController@sendTable')->name('user.sendTable');
+        Route::get('/lang/{lang}', 'HomeController@setLocale')->name('user.setLocale');
     });
 
 

@@ -36,10 +36,14 @@
             @endguest
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <div class="pr-2">
+        <a class="pr-2" href="{{route('user.setLocale', 'en')}}"><img width="40px" src="{{asset('img/uk.png')}}" alt=""></a>
+        <a href="{{route('user.setLocale', 'ua')}}"><img width="40px" src="{{asset('img/ukr.png')}}" alt=""></a>
+        </div>
+        {{--<form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form>--}}
     </div>
 </nav>
 

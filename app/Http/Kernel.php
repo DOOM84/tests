@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CheckCookie;
 use App\Http\Middleware\RestrictAccess;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -63,5 +64,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'restrictToGuest' => RestrictAccess::class,
         'admin' => AdminMiddleware::class,
+        'cookie' => CheckCookie::class,
     ];
 }
