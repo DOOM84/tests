@@ -13,7 +13,7 @@
     <link href="{{asset('css/offcanvas.css')}}" rel="stylesheet">
     @if(Request::segment(2) == 'graph')
         <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+       {{-- <script src="https://code.highcharts.com/modules/series-label.js"></script>--}}
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
     @endif

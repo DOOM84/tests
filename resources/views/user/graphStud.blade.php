@@ -1,5 +1,5 @@
 @extends('user.layout')
-@section('title', 'Charts')
+@section('title', __('page.grInform').'. '.Auth::user()->name)
 @section('content')
 
     <main role="main" class="container">
@@ -7,7 +7,7 @@
             @include('includes.messages')
             <div class="lh-100 ">
                 <h2 class="text-center mb-0 text-white lh-100">
-                    Графическая информация. {{Auth::user()->name}}
+                    @lang('page.grInform'). {{Auth::user()->name}}
                 </h2>
             </div>
         </div>
@@ -16,19 +16,19 @@
             <div class="d-inline-flex mb-2">
                 <label for="from"></label>
                 <select id="from" class="custom-select w-50">
-                    <option value="0" selected>Выбрать от</option>
+                    <option value="0" selected>@lang('page.from')</option>
                     @foreach($dates as $date)
                         <option value="{{$date}}">{{$date}}</option>
                     @endforeach
                 </select>
                 <label for="to"></label>
                 <select id="to" class="custom-select w-50 mr-2">
-                    <option value="0" selected>Выбрать до</option>
+                    <option value="0" selected>@lang('page.to')</option>
                     @foreach($dates as $date)
                         <option value="{{$date}}">{{$date}}</option>
                     @endforeach
                 </select>
-                <button id="showInfo" class="btn btn-primary">Показать</button>
+                <button id="showInfo" class="btn btn-primary">@lang('page.show')</button>
             </div>
         </div>
 
@@ -46,12 +46,12 @@
                     },
 
                     subtitle: {
-                        text: 'Успеваемость за все время'
+                        text: '{{__('page.acPer')}}'
                     },
 
                     xAxis: {
                         title: {
-                            text: 'Дата и время прохождения'
+                            text: '{{__('page.dateTime')}}'
                         },
                         categories: [
                             @foreach($user->results/*->sortBy('updated_at')*/ as $result)
@@ -64,7 +64,7 @@
                     yAxis: {
                         max: 100,
                         title: {
-                            text: 'Оценка'
+                            text: '{{__('page.rate')}}'
                         },
                     },
 
@@ -82,10 +82,10 @@
                         }
                     },
                     series: [{
-                        name: 'Успеваемость',
+                        name: '{{__('page.per')}}',
                         data: [
                                 @foreach($user->results/*->sortBy('updated_at')*/ as $result)
-                            ['Тема: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}} ({{$result->level->level}})', {{$result->result}}],
+                            ['{{__('page.topic')}}: {{isset($result->topic->name) ? $result->topic->name : __('page.testName')}} ({{$result->level->level}})', {{$result->result}}],
                             @endforeach
                         ],
                         lineWidth: 3

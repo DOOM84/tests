@@ -36,7 +36,7 @@ class SendMail extends Mailable
         return $this->markdown('SendMail.table', [
             'table' => $request->table,
             'email' => Auth::user()->email,
-        ])->subject('Результаты теста')
+        ])->subject(__('page.testRes'))
             ->to(Auth::user()->email, Auth::user()->name)->from(env('MAIL_MERCH'), env('APP_NAME'));
     }
 }

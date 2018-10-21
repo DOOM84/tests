@@ -21,7 +21,7 @@
                 //$("#container").html(filtered);
                 var mes = document.getElementById('ratemes');
                 mes.style.display = 'block';
-                mes.innerHTML = 'Информация успешно отправлена на Ваш электронный адрес';
+                mes.innerHTML = '{{__('page.sentMail')}}';
             }
         });
     }

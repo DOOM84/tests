@@ -22,7 +22,7 @@ class TaskController extends Controller
 
         if (Auth::user()->level->ordered == 3) {
             if (Auth::user()->attempts > (Auth::user()->level->topics->where('status', 1)->count() + 1) * 2) {
-                return redirect()->route('user.index')->with('error', 'Перевищено кількість спроб.');
+                return redirect()->route('user.index')->with('error', __('page.attempts'));
             } else {
                 Auth::user()->increment('attempts');
                 Auth::user()->save();
@@ -41,7 +41,7 @@ class TaskController extends Controller
 
         if (!$topic && !$tasks->count()) {
             return redirect()->route('user.index')
-                ->with('error', 'You can not access to this page');
+                ->with('error', __('page.access'));
         }
 
 
@@ -68,11 +68,11 @@ class TaskController extends Controller
     {
         //dd($request->answers);
         if (empty($request->answers) || count($request->answers) > $request->amount) {
-            $arr = ['status' => 'Помилка! Ви не відзначили жодної відповіді'];
+            $arr = ['status' => __('page.noAnsw')];
             return json_encode($arr);
         }
         if (Auth::user()->level_id > Level::max('ordered')) {
-            $arr = ['status' => 'Congratulations! You\'ve completed all the tests successfully!'];
+            $arr = ['status' => __('page.congrat')];
             return json_encode($arr);
         }
         $result = 0;
@@ -168,7 +168,7 @@ class TaskController extends Controller
             Auth::user()->decrement('level_id');
             Auth::user()->save();
             $arr = [
-                'status' => $result . ' Congratulations! You\'ve completed all the tests successfully!',
+                'status' => $result . __('page.congrat'),
                 'completed' => 1
             ];
         } else {

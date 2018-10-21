@@ -6,16 +6,15 @@
         },
 
         title: {
-            text: 'Группа {{$group->name}}'
+            text: '{{__('page.group')}} {{$group->name}}'
         },
 
         subtitle: {
-            text: 'Успеваемость c {{$from}} по {{$to}}'
+            text: '{{__('page.per')}} {{__('page.PerFrom')}} {{$from}} {{__('page.PerTo')}} {{$to}}'
         },
-
         xAxis: {
             title: {
-                text: 'Дата и время прохождения'
+                text: '{{__('page.dateTime')}}'
             },
             categories: [
                 @foreach($group->results/*->sortBy('updated_at')*/ as $result)
@@ -27,7 +26,7 @@
         yAxis: {
             max: 100,
             title: {
-                text: 'Оценка'
+                text: '{{__('page.rate')}}'
             },
         },
 
@@ -45,7 +44,7 @@
             }
         },
         series: [{
-            name: 'Успеваемость',
+            name: '{{__('page.per')}}',
             data: [
                     @foreach($group->results/*->sortBy('updated_at')*/ as $result)
                 ['Тема: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}} ({{$result->level->level}})', {{$result->result}}],

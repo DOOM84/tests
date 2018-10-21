@@ -1,18 +1,18 @@
 @extends('user.layout')
-@section('title', 'Welcome')
+@section('title', __('page.welcome'))
 @section('content')
 
     <main role="main" class="container">
         <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm ">
             @include('includes.messages')
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Welcome to the testing system!</h2>
+                <h2 class="text-center mb-0 text-white lh-100">@lang('page.welcome')</h2>
             </div>
         </div>
 
         <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
             @guest
-                <a href="{{route('user.tasks')}}" class="btn btn-success m-3"><strong>Go to the testing</strong></a>
+                <a href="{{route('user.tasks')}}" class="btn btn-success m-3"><strong>@lang('page.toTest')</strong></a>
             @else
                 {{--<form action="{{route('user.tasks')}}" method="post">
                     @csrf
@@ -31,8 +31,8 @@
                     @set($compl, 0)
                     {{--<label for="topic">Choose topic:</label>--}}
                     <select id="topic" class="custom-select" name="topic">
-                        <option value="">Choose topic:</option>
-                        <option value="general">GENERAL TEST</option>
+                        <option value="">@lang('page.choose')</option>
+                        <option value="general">@lang('page.testName')</option>
                         @forelse($topics->sortBy('name') as $topic)
                             @foreach(Auth::user()->results as $result)
                                 @if($result->topic_id == $topic->id && $result->level_id == Auth::user()->level_id
@@ -47,7 +47,7 @@
                         @endforelse
 
                     </select>
-                    <button type="submit" class="btn btn-success m-3"><strong>Go to the testing</strong></button>
+                    <button type="submit" class="btn btn-success m-3"><strong>@lang('page.toTest')</strong></button>
                 </form>
             @endguest
 

@@ -17,7 +17,7 @@
     <link href="{{asset('admin/css/dashboard.css')}}" rel="stylesheet">
     @if(Request::segment(3) == 'graph')
         <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        {{--<script src="https://code.highcharts.com/modules/series-label.js"></script>--}}
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
     @endif

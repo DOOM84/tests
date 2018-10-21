@@ -1,8 +1,8 @@
 @component('mail::message')
-# Здравствуйте, {{Auth::user()->name}}!
+# @lang('page.hello'), {{Auth::user()->name}}!
 
 {!! $table !!}
 
-С уважением,<br>
+@lang('page.respect'),<br>
 {{ config('app.name') }}
 @endcomponent

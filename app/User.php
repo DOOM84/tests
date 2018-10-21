@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Mail\SendRes;
-use App\Models\Detail;
 use App\Models\Group;
 use App\Models\Institute;
 use App\Models\Level;
@@ -170,7 +169,6 @@ class User extends Authenticatable
             'results.level',
         ]);
     }
-
 
 
 }

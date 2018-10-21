@@ -1,5 +1,5 @@
 @extends('user.layout')
-@section('title', 'Welcome')
+@section('title', __('page.stats'))
 @section('content')
 
     <main role="main" class="container">
@@ -7,18 +7,18 @@
             @include('includes.messages')
 
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Статистика. @auth {{Auth::user()->name}} @endauth</h2>
+                <h2 class="text-center mb-0 text-white lh-100">@lang('page.stats'). @auth {{Auth::user()->name}} @endauth</h2>
             </div>
 
         </div>
 
         <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
             @guest
-                Ви не можете бачити цю iнформацiю
+                @lang('page.cantSee')
             @else
                 @if(Auth::user()->results->count() > 0)
                     <a class="btn btn-primary mb-2 " href="{{route('user.stats.graph.student')}}">
-                        Графическая информация
+                        @lang('page.grInform')
                     </a>
                     <div class="text-right">
                         <a href="#"><i data-feather="printer" onclick="printData()"></i></a>
@@ -26,21 +26,21 @@
                     </div>
                 @else @endif
                 <div id="res">
-                    <h3 id="tableName" class="d-none">Статистика. {{Auth::user()->name}}</h3>
+                    <h3 id="tableName" class="d-none">@lang('page.stats'). {{Auth::user()->name}}</h3>
                     @forelse(Auth::user()->results->sortByDesc('level_id')->groupBy('level_id') as $level => $results)
                         <table class="table" cellpadding="7" border="2" width="100%">
                             <thead class="thead-dark">
                             <tr>
-                                <th colspan="4" scope="col" align="center">Уровень {{$results[0]->level->level}}</th>
+                                <th colspan="4" scope="col" align="center">@lang('page.level') {{$results[0]->level->level}}</th>
 
                             </tr>
                             </thead>
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col" align="center">#</th>
-                                <th scope="col" align="center">Текущий тест</th>
-                                <th scope="col" align="center">Дата и время работы</th>
-                                <th scope="col" align="center">Текущая оценка</th>
+                                <th scope="col" align="center">@lang('page.curTest')</th>
+                                <th scope="col" align="center">@lang('page.dateTime')</th>
+                                <th scope="col" align="center">@lang('page.curRate')</th>
 
 
                             </tr>
@@ -50,16 +50,16 @@
                                 <tr>
                                     <td scope="col" align="center">{{$loop->iteration}}</td>
                                     <td scope="col" align="center">
-                                        <a href="{{route('user.stats.detail', $result->id)}}">{{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}</a>
+                                        <a href="{{route('user.stats.detail', $result->id)}}">{{isset($result->topic->name) ? $result->topic->name : __('page.testName')}}</a>
                                     </td>
-                                    <td scope="col" align="center">{{$result->start}} <br> (Продолжительность: {{$result->duration}})
+                                    <td scope="col" align="center">{{$result->start}} <br> (@lang('page.duration'): {{$result->duration}})
                                     </td>
                                     <td scope="col" align="center">{{$result->result}}</td>
                                 </tr>
 
                             @endforeach
                             <tr>
-                                <td colspan="4" scope="col" align="center">Средняя оценка по уровню:
+                                <td colspan="4" scope="col" align="center">@lang('page.average')
                                     {{Auth::user()->getMidRes($level)}}
                                 </td>
                             </tr>
@@ -67,15 +67,11 @@
                         </table>
                     @empty
                         <tr>
-                            <td colspan="4" align="center">Нет результатов</td>
+                            <td colspan="4" align="center">@lang('page.noRes')</td>
                         </tr>
                     @endforelse
                 </div>
-
-
             @endguest
-
-
         </div>
 
 

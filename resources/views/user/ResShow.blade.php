@@ -1,5 +1,5 @@
 @extends('user.layout')
-@section('title', 'Welcome')
+@section('title', isset($result->topic->name) ? $result->topic->name : __('page.testName'))
 @section('content')
 
     <main role="main" class="container">
@@ -7,22 +7,22 @@
             @include('includes.messages')
             <div class="lh-100 ">
                 <h2 class="text-center mb-0 text-white lh-100">
-                    Тест: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}
+                    @lang('page.test'): {{isset($result->topic->name) ? $result->topic->name : __('page.testName')}}
                 </h2>
             </div>
         </div>
 
         <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
             @guest
-                Ви не можете бачити цю iнформацiю
+                @lang('page.cantSee')
             @else
                 <table class="table">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">Вопрос</th>
-                        <th scope="col">Языковой уровень</th>
-                        <th scope="col">Ответ</th>
-                        <th scope="col">Тема</th>
+                        <th scope="col">@lang('page.quest')</th>
+                        <th scope="col">@lang('page.langLevel')</th>
+                        <th scope="col">@lang('page.answer')</th>
+                        <th scope="col">@lang('page.topic')</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -29,7 +29,7 @@ class Institute extends Model
     public static function add($request)
     {
         $institute = new static;
-        if(!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['status'])) $request['status'] = 0;
         $institute->fill($request);
         $institute->save();
         return $institute;
@@ -38,7 +38,7 @@ class Institute extends Model
 
     public function edit($request)
     {
-        if(!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['status'])) $request['status'] = 0;
         $this->fill($request);
         $this->save();
 

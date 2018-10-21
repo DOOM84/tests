@@ -37,7 +37,7 @@ class SendRes extends Mailable
         return $this->markdown('SendMail.res', [
             'res' => $this->res2send,
             'email' => Auth::user()->email,
-        ])->subject('Результаты теста')
+        ])->subject(__('page.testRes'))
             ->to(Auth::user()->email, Auth::user()->name)->from(env('MAIL_MERCH'), env('APP_NAME'));
     }
 }

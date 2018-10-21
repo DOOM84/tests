@@ -1,12 +1,12 @@
 @extends('user.layout')
-@section('title', 'Level: '.Auth::user()->level->level)
+@section('title', __('page.level').Auth::user()->level->level)
 @section('content')
     <main id="mainWin" role="main" class="container">
         <div class="{{--d-flex --}} p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
             @include('includes.messages')
             <div class="lh-100 ">
-                <h2 class="text-center mb-0 text-white lh-100">Level: {{Auth::user()->level->level}}.
-                    {{isset($topic->name) ? 'Topic: ' .$topic->name : ''}}</h2>
+                <h2 class="text-center mb-0 text-white lh-100">@lang('page.level') {{Auth::user()->level->level}}.
+                    @lang('page.topic'): {{isset($topic->name) ? $topic->name : __('page.testName')}}</h2>
             </div>
             <p class="text-right fixed-bottom" id="demo"></p>
         </div>
@@ -54,7 +54,7 @@
 
         @endif
         <div class="container text-right">
-            <button type="button" id="sendRes" class="btn btn-success ">Send</button>
+            <button type="button" id="sendRes" class="btn btn-success ">@lang('page.send')</button>
         </div>
         <!-- The Modal -->
         <div id="myModal" class="modal ">
@@ -107,11 +107,11 @@
                     var contin;
                     clearInterval(x);
 
-                    contin = "<a href=\"{{route('user.index')}}\" class=\"btn btn-success\"><strong>Continue</strong></a>\n";
+                    contin = "<a href=\"{{route('user.index')}}\" class=\"btn btn-success\"><strong>@lang('page.continue')</strong></a>\n";
 
                     $("#mainWin").html("<div class=\" p-3 my-3 text-white-50 bg-purple rounded shadow-sm \">\n" +
                         "<div class=\"lh-100 \">\n" +
-                        "<h2 class=\"text-center mb-0 text-white lh-100\">Your result: " + data.status + "</h2>\n" +
+                        "<h2 class=\"text-center mb-0 text-white lh-100\">@lang('page.result') " + data.status + "</h2>\n" +
                         "</div>\n" +
                         "</div>" +
                         "<div class=\"my-3 p-3 bg-white rounded shadow-sm text-center\">\n" +
@@ -120,7 +120,7 @@
 
                     if (data.status < 90 && Object.keys(data.repeat).length > 0) {
                         $("#mainWin").append("<ul class=\"list-group\" id=\"repeatTopics\">" +
-                            "<li class=\"list-group-item active\">Вам необходимо повторить следующие темы:</li>" +
+                            "<li class=\"list-group-item active\">@lang('page.repeat')</li>" +
                             "</ul>");
                         $.each(data.repeat, function (i, val) {
                             $("#repeatTopics").append("<li class=\"list-group-item\">" + val + "</li>");

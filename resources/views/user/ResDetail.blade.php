@@ -1,5 +1,5 @@
 @extends('user.layout')
-@section('title', 'Welcome')
+@section('title', isset($result->topic->name) ? $result->topic->name : __('page.testName'))
 @section('content')
 
     <main role="main" class="container">
@@ -7,31 +7,31 @@
             @include('includes.messages')
             <div class="lh-100 ">
                 <h2 class="text-center mb-0 text-white lh-100">
-                    Тест: {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}.
-                    Уровень: {{$result->level->level}}
+                    @lang('page.test'): {{isset($result->topic->name) ? $result->topic->name : __('page.testName')}}.
+                    @lang('page.level') {{$result->level->level}}
                 </h2>
             </div>
         </div>
 
         <div class="my-3 p-3 bg-white rounded shadow-sm text-center">
             @guest
-                Ви не можете бачити цю iнформацiю
+                @lang('page.cantSee')
             @else
 
                 <table class="table">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">Тест</th>
-                        <th scope="col">Время работы</th>
-                        <th scope="col">Кол-во правильных ответов</th>
-                        <th scope="col">Кол-во неправильных ответов</th>
-                        <th scope="col">Оценка/Балл</th>
+                        <th scope="col">@lang('page.test')</th>
+                        <th scope="col">@lang('page.duration')</th>
+                        <th scope="col">@lang('page.correct')</th>
+                        <th scope="col">@lang('page.incorrect')</th>
+                        <th scope="col">@lang('page.rate')/@lang('page.score')</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td scope="col">
-                            {{isset($result->topic->name) ? $result->topic->name : 'Общий тест'}}
+                            {{isset($result->topic->name) ? $result->topic->name : __('page.testName')}}
                         </td>
                         <td scope="col">
                             {{$result->duration}}
@@ -39,7 +39,7 @@
                         <td scope="col">{{$result->detail->correct}}</td>
                         <td scope="col">{{$result->detail->incorrect}}
                             @if($result->detail->incorrect > 0)
-                                <a href="{{route('user.stats.show', $result->id)}}">Показать</a>
+                                <a href="{{route('user.stats.show', $result->id)}}">@lang('page.show')</a>
                             @endif
                         </td>
                         <td scope="col">{{$result->value}}/{{$result->result}}</td>

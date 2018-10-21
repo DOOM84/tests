@@ -34,7 +34,7 @@ class Group extends Model
     public static function add($request)
     {
         $group = new static;
-        if(!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['status'])) $request['status'] = 0;
         $group->fill($request);
         $group->save();
         return $group;
@@ -43,7 +43,7 @@ class Group extends Model
 
     public function edit($request)
     {
-        if(!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['status'])) $request['status'] = 0;
         $this->fill($request);
         $this->save();
 
