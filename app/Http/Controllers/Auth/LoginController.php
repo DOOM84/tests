@@ -43,12 +43,26 @@ class LoginController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 0])) {
             Auth::logout();
-            return back()->withErrors(['Your account is inactive. Please, contact your administrator.']);
+            return back()->withErrors([__('page.blocked')]);
         }
 
         return $this->guard()->attempt(
             $this->credentials($request), $request->filled('remember')
         );
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ],
+            [
+                $this->username().'.required' => __('page.emailReq'),
+                $this->username().'.string' => __('page.emailStr'),
+                'password.required' => __('page.passwordReq'),
+                'password.string' => __('page.passwordStr'),
+            ]);
     }
 
     /*protected function sendLoginResponse(Request $request)
@@ -64,5 +78,7 @@ class LoginController extends Controller
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
     }*/
+
+
 
 }

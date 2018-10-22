@@ -36,4 +36,16 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    protected function validationErrorMessages()
+    {
+        return [
+            'email.required' => __('page.emailReq'),
+            'email.email' => __('page.emailEm'),
+            'password.required' => __('page.passwordReq'),
+            'password.confirmed' => __('page.passwordConfirmed'),
+            'password.min' => __('page.passwordMin'),
+            'token.required' => __('passwords.token'),
+        ];
+    }
 }

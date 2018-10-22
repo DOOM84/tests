@@ -63,6 +63,10 @@ Route::group(['namespace' => 'User', 'middleware'=>'cookie'], function () {
 
 });
 
-Auth::routes();
+Route::group(['middleware' => 'cookie'], function () {
+    Auth::routes();
+});
+
+
 
 Route::get('/home', 'User\HomeController@index')->name('home');

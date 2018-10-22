@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\App;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +51,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->cookie('setloc') == 'ua' || $request->cookie('setloc') == 'en'){
+            App::setLocale($request->cookie('setloc'));
+        }
+
         if ($exception instanceof TokenMismatchException) {
             return redirect()
                 ->route('login');

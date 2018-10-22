@@ -45,10 +45,10 @@ class MailResetPasswordNotification extends Notification
         return ( new MailMessage )
             ->markdown('vendor.notifications.email')
             ->from(env('MAIL_MERCH'), env('APP_NAME'))
-            ->subject( 'Password reset' )
-            ->line( 'You are receiving this email because we received a password reset request for your account.' )
-            ->action(Lang::getFromJson('Reset password'), url(config('app.url').route('password.reset', $this->token, false)))
-            ->line( 'If you did not request a password reset, no further action is required.' );
+            ->subject( __('page.resetPas') )
+            ->line( __('page.pasRes'))
+            ->action(Lang::getFromJson(__('page.resetPas') ), url(config('app.url').route('password.reset', $this->token, false)))
+            ->line( __('page.ifNot') );
 
 
         /*return (new MailMessage)

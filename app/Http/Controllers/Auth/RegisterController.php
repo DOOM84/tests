@@ -55,12 +55,37 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        /*return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'group_id' => 'required',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+        ]);*/
+
+        $messages = [
+            'name.required' => __('page.nameReq'),
+            'name.string' => __('page.nameStr'),
+            'name.max' => __('page.nameMax'),
+            'name.min' => __('page.nameMin'),
+            'name.unique' => __('page.nameUnique'),
+            'email.required' => __('page.emailReq'),
+            'email.string' => __('page.emailStr'),
+            'email.email' => __('page.emailEm'),
+            'email.max' => __('page.emailMax'),
+            'email.unique' => __('page.emailUnique'),
+            'group_id.required' => __('page.groupIdReq'),
+            'password.required' => __('page.passwordReq'),
+            'password.string' => __('page.passwordStr'),
+            'password.min' => __('page.passwordMin'),
+            'password.confirmed' => __('page.passwordConfirmed'),
+        ];
+
+        return Validator::make($data, [
+            'name' => 'required|string|min:2|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'group_id' => 'required',
+            'password' => 'required|string|min:6|confirmed',
+        ], $messages);
     }
 
     /**

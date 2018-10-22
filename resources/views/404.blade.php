@@ -1,5 +1,5 @@
 @extends('user.layout')
-
+@section('title', __('page.404'))
 @section('content')
 
     <!-- Main Content -->
