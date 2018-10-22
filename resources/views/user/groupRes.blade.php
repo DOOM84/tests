@@ -53,7 +53,7 @@
                                 <td scope="col" align="center">
                                     {{$result->level->level}}
                                 </td>
-                                <td scope="col" align="center">{{$result->updated_at}}</td>
+                                <td scope="col" align="center">{{$result->start}}</td>
                                 <td scope="col" align="center">{{$result->result}}</td>
                             </tr>
                         @empty

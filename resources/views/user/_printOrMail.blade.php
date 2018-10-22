@@ -3,13 +3,11 @@
         var divToPrint = document.getElementById("res");
         newWin = window.open("");
         newWin.document.write(divToPrint.outerHTML);
-        console.log(divToPrint.outerHTML);
         newWin.print();
         newWin.close();
     }
     function mailData() {
         var divToPrint = document.getElementById("res");
-        console.log(divToPrint.outerHTML);
         $.ajax({
             type: "POST",
             url: '{{route('user.sendTable')}}',

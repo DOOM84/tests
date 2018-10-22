@@ -65,7 +65,7 @@ class Group extends Model
     {
         return $this->load([
             'results' => function ($query) {
-                $query->orderBy('updated_at', 'asc');
+                $query->orderBy('start', 'asc'); //updated_at
             },
             'results.topic',
             'results.level',
@@ -77,7 +77,7 @@ class Group extends Model
     {
         return $this->load(['results' => function ($query) use ($start, $end) {
             $query->whereBetween('updated_at', [$start, $end])
-                ->orderBy('updated_at', 'asc');
+                ->orderBy('start', 'asc'); //updated_at
         },
             'results.topic',
             'results.level',

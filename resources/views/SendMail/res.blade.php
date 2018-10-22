@@ -1,6 +1,6 @@
 @component('mail::message')
 # @lang('page.hello')!
-# @lang('page.testRest'): {{$res->topic ? $res->topic->name : __('page.testName')}}. @lang('page.level') {{$res->level->level}}.
+# @lang('page.testRes'): {{$res->topic ? $res->topic->name : __('page.testName')}}. @lang('page.level') {{$res->level->level}}.
 
 @component('mail::table')
     | @lang('page.test')                                       | @lang('page.duration') |  @lang('page.correct')      | @lang('page.incorrect')      | @lang('page.rate')/@lang('page.score') |

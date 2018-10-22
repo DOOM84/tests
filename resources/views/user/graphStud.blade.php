@@ -55,7 +55,7 @@
                         },
                         categories: [
                             @foreach($user->results/*->sortBy('updated_at')*/ as $result)
-                                '{{$result->updated_at}}',
+                                '{{$result->start}}',
                             @endforeach
 
                         ]
