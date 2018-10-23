@@ -40,6 +40,9 @@ class StatsController extends Controller
 
     public function group()
     {
+        if (!isset(Auth::user()->group->name)) {
+            return abort('404');
+        }
         return view('user.groupRes');
     }
 

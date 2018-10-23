@@ -70,14 +70,12 @@
 
 @section('scriptSection')
     <script>
-        //var cnt;
         $(document).ready(function () {
             $("#sendRes").click(function () {
                 if (!confirm("Are you sure?")) return false;
                 finishTest()
             });
         });
-
         var start = Math.round((new Date()).getTime() / 1000);
 
         function finishTest() {
@@ -100,6 +98,12 @@
                     "level_id": '{{Auth::user()->level->id}}',
                     "duration": duration,
                     "start": start
+                },
+                beforeSend: function () {
+                    let butt = $("#sendRes");
+                    butt.html('{{__('page.process')}}');
+                    butt.attr('class', 'btn btn-info');
+                    butt.prop('disabled', true);
                 },
                 success: function (data) {
                     data = jQuery.parseJSON(data);
@@ -302,16 +306,6 @@
                 }
                 getMes(sliced, true);
             }
-
-            /*if (countAn.length - shift == param) {
-                var key = 0;
-                var sliced = [];
-                for (var i = shift; i < (shift + param); i++) {
-                    sliced[key] = countAn[i];
-                    key++
-                }
-                getMes(sliced, true);
-            }*/
         }
     </script>
 

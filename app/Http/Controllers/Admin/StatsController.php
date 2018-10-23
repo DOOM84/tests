@@ -19,6 +19,9 @@ class StatsController extends Controller
 
     public function student(User $user)
     {
+        if (!isset($user->group->name)) {
+            return redirect()->back();
+        }
         return view('admin.stats.student', compact('user'));
     }
 

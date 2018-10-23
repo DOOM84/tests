@@ -23,7 +23,7 @@
                 <th>Описание</th>
                 <th>Уровень</th>
                 <th>Тема</th>
-                <th>Категория</th>
+                {{--<th>Категория</th>--}}
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>
@@ -45,7 +45,7 @@
                         @endforelse
 
                     </td>
-                    <td> {{ (isset($task->category->name)) ? $task->category->name : 'Нет' }} </td>
+                    {{--<td> {{ (isset($task->category->name)) ? $task->category->name : 'Нет' }} </td>--}}
                     <td>{{ $task->status ? 'Да' : 'Нет' }}</td>
                     <td><a class="btn btn-primary" href="{{route('tasks.edit', $task->id)}}">Изменить</a></td>
                     <td>
@@ -75,7 +75,7 @@
                 <th>Описание</th>
                 <th>Уровень</th>
                 <th>Тема</th>
-                <th>Категория</th>
+                {{--<th>Категория</th>--}}
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>

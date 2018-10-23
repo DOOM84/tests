@@ -16,7 +16,7 @@
             @guest
                 @lang('page.cantSee')
             @else
-                @if(Auth::user()->results->count() > 0)
+                @if(Auth::user()->group->results->count() > 0)
                     <a class="btn btn-primary mb-2" href="{{route('user.stats.graph.group')}}">
                         @lang('page.grInform')
                     </a>

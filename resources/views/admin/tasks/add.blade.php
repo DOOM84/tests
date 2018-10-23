@@ -37,14 +37,14 @@
                 <textarea class="form-control" name="description" id="description" rows="3"></textarea>
             </div>
 
-            <div class="form-group">
+            {{--<div class="form-group">
                 <label for="category">Категория (опционально)</label>
                 <select id="category" name="category_id" class="form-control">
                     @foreach($categories as $category)
                         <option value="{{$category->id}}">{{$category->name}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div>--}}
 
             <div class="form-group">
                 <label for="level">Уровень</label>

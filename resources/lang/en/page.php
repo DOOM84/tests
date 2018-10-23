@@ -84,5 +84,6 @@ return [
     'register' => 'Sign up',
     'sendPas' => 'Send Password Reset Link',
     'noEdu' => 'No educational institution',
+    'process' => 'Processing ...',
 
 ];

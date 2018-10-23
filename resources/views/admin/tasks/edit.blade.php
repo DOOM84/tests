@@ -52,7 +52,7 @@
                           rows="3">{{$task->description}}</textarea>
             </div>
 
-            <div class="form-group">
+            {{--<div class="form-group">
                 <label for="category">Категория (опционально)</label>
                 <select id="category" name="category_id" class="form-control">
                     <option value="">Нет</option>
@@ -61,7 +61,7 @@
                                 @if(isset($task->category->id) && $task->category->id == $category->id) selected @endif>{{$category->name}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div>--}}
 
             <div class="form-group">
                 <label for="level">Уровень</label>

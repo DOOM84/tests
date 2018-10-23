@@ -46,7 +46,7 @@
 
 <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top p-0">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{route('admin.home')}}">{{env('APP_NAME')}}</a>
+        <a class="navbar-brand" href="{{route('user.index')}}">{{env('APP_NAME')}}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
