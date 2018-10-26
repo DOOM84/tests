@@ -35,7 +35,8 @@ class TaskController extends Controller
             //$topic = Topic::where('level_id', '<=', Auth::user()->level->id)->where('id', $request->topic)->first();
             $topic = Auth::user()->level->topics->where('id', $request->topic)->first()
                 ->load(['tasks' => function ($query) {
-                    $query->where('level_id', Auth::user()->level->ordered)->with('answers');
+                    $query->where('level_id', Auth::user()->level->ordered)->with('answers')
+                        ->distinct()->inRandomOrder()->take(50);
                 }]);
         };
 

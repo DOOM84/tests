@@ -31,8 +31,11 @@
                     @set($compl, 0)
                     {{--<label for="topic">Choose topic:</label>--}}
                     <select id="topic" class="custom-select" name="topic">
-                        <option value="">@lang('page.choose')</option>
-                        <option value="general">@lang('page.testName')</option>
+                        <option value="" class="">@lang('page.choose')</option>
+                        <option value="general"
+                                class="@if(Auth::user()->level->results->where('topic_id', Null)->where('is_completed', 1)->count() > 0)
+                                        text-green @else text-red  @endif">@lang('page.testName')
+                        </option>
                         @forelse($topics->sortBy('name') as $topic)
                             @foreach(Auth::user()->results as $result)
                                 @if($result->topic_id == $topic->id && $result->level_id == Auth::user()->level_id
