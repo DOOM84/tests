@@ -4,7 +4,7 @@ return [
     'welcome' => 'Welcome to the testing system!',
     'toTest' => 'Go to the testing',
     'choose' => 'Choose topic',
-    'testName' => 'GENERAL TEST',
+    'testName' => 'Study guide',
     'logOut' => 'Logout',
     'stats' => 'Statistics',
     'grInform' => 'Graphic information',
@@ -85,5 +85,8 @@ return [
     'sendPas' => 'Send Password Reset Link',
     'noEdu' => 'No educational institution',
     'process' => 'Processing ...',
+    'variants' => 'Answers',
+    'link' => 'Link',
+    'interface' => 'Interface:',
 
 ];

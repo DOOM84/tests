@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin'], function () {
     Route::resource('/admin/groups', 'GroupController');
     Route::resource('/admin/institutes', 'InstituteController');
     Route::resource('/admin/branches', 'BranchController');
+    Route::resource('/admin/sources', 'SourceController');
     Route::get('/admin/deleteAnswer/{id}', 'TaskController@deleteAnswer')->name('admin.deleteAnswer');
     Route::get('/admin/stats', 'StatsController@index')->name('admin.stats');
     Route::get('/admin/stats/graph/student/{user}', 'StatsController@graphStud')->name('admin.stats.graph.student');

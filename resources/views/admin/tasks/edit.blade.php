@@ -33,9 +33,10 @@
                             <input name="answer[{{$loop->iteration}}][is_correct]" type="checkbox" value="1"
                                    @if($answer->is_correct) checked @endif>
                         </label>
+                        <input hidden type="text" value="{{$answer->id}}" name="answer[{{$loop->iteration}}][ans_id]">
                         <a class="btn btn-warning float-right m-1" href="{{route('admin.deleteAnswer', $answer->id)}}"
                            onclick="
-                                if(confirm('Вы уверены?')){
+                                if(confirm('Вы уверены? Удаление варианта ответа может привести к нарушению структуры детализации теста. Лучше измените вариант ответа')){
                                 return true;
                                 }else{
                                 event.preventDefault();
@@ -85,6 +86,20 @@
                                 @endforeach
 
                         >{{$topic->name}} {{--({{isset($topic->level->level) ? $topic->level->level : ''}})--}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="topic">Ссылки</label>
+                <select id="topic" name="sources[]" class="form-control" multiple size='20'>
+                    @foreach($sources->sortBy('url') as $link)
+                        <option value="{{$link->id}}"
+                                @foreach($task->sources as $task_source)
+                                @if($task_source->id == $link->id)
+                                selected
+                                @endif
+                                @endforeach
+                        >{{$link->url}}</option>
                     @endforeach
                 </select>
             </div>

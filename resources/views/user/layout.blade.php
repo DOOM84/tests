@@ -18,7 +18,6 @@
         <script src="{{asset('js/exporting.js')}}"></script>
         <script src="{{asset('js/export-data.js')}}"></script>
     @endif
-
 </head>
 
 <body class="bg-light">

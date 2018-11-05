@@ -82,16 +82,15 @@ class User extends Authenticatable
             'correct' => $correct,
             'incorrect' => $incorrect
         ]);
-
         Mail::send(new SendRes($res));
-        return true;
+        return $res->id;
 
         //$res->detail()->save($detail);
     }
 
     public function reduceLevel()
     {
-        $compl = $this->results()
+        /*$compl = $this->results()
             ->where('level_id', $this->level->id)
             ->where('is_completed', Null)->count();
         $generalTest = $this->results()
@@ -106,13 +105,18 @@ class User extends Authenticatable
         $prevResLev = $this->results->where('level_id', $this->level->id - 1);
         $prevResLev->each(function ($level) {
             $level->update(['is_completed' => Null]);
-        });
+        });*/
+        if($this->level->id > 1){
+            $this->decrement('level_id');
+            $this->save();
+        }
+
     }
 
     public function increaseLevel()
     {
 
-        $compl = $this->results()
+        /*$compl = $this->results()
             ->where('level_id', $this->level->id)->where('is_completed', 1)->count();
         $generalTest = $this->results()
             ->where('level_id', $this->level->id)->where('topic_id', Null)
@@ -121,7 +125,11 @@ class User extends Authenticatable
         if ($compl == ($topicsLev + $generalTest)) {
             $this->increment('level_id');
             $this->save();
-        }
+        }*/
+
+        $this->increment('level_id');
+        $this->save();
+
     }
 
 

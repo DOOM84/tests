@@ -67,3 +67,59 @@
 }
 
 
+.feather-32{
+  width: 32px;
+  height: 32px;
+}
+
+.radioB>[type="radio"]:not(:checked) + label:before {
+  border: 1px solid #1a4380!important;
+  border-radius: 100%;
+  background: #fff!important;
+}
+
+.color1 {
+  cursor:pointer; background-color: rgb(202, 199, 216);
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 10px
+}
+.color2 {
+  cursor:pointer; background-color: rgb(217, 227, 203);
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 10px
+}
+.color3 {
+  cursor:pointer; background-color: rgb(163, 192, 144);
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 10px
+}
+.color4 {
+  cursor:pointer; background-color: rgb(213, 229, 215);
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 10px
+}
+.color5 {
+  cursor:pointer; background-color: rgb(206, 223, 144);
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 10px
+}
+.color6 {
+  cursor:pointer; background-color:rgb(215, 205, 196);
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 10px
+}
+
+
+

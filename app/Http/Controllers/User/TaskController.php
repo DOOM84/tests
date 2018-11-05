@@ -83,11 +83,14 @@ class TaskController extends Controller
             if ($res->is_correct) {
                 $result++;
             } else {
+                //$res->task->sources
                 $res->task->topics->each(function ($forRepeat) use (&$repTopics) {
-                    $repTopics[] = $forRepeat->description;
+                    $repTopics[] = $forRepeat->description; //id
                 });
             }
         }
+
+        //dd(array_unique($repTopics));
 
         $correct = $result;
         $incorrect = $request->amount - $result;
@@ -105,7 +108,7 @@ class TaskController extends Controller
             $ects = 'A';
             $natValue = 5;
 
-            Auth::user()->updRes($request->topic_id, 1, $value, $ects, $natValue, $result,
+            $resId = Auth::user()->updRes($request->topic_id, 1, $value, $ects, $natValue, $result,
                 $request->answers, $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->increaseLevel();
 
@@ -114,7 +117,7 @@ class TaskController extends Controller
             $ects = 'B';
             $natValue = 4;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+            $resId = Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
@@ -123,7 +126,7 @@ class TaskController extends Controller
             $ects = 'C';
             $natValue = 4;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+            $resId = Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
@@ -132,7 +135,7 @@ class TaskController extends Controller
             $ects = 'D';
             $natValue = 3;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+            $resId = Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
@@ -141,7 +144,7 @@ class TaskController extends Controller
             $ects = 'E';
             $natValue = 3;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+            $resId = Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
@@ -150,7 +153,7 @@ class TaskController extends Controller
             $ects = 'FX';
             $natValue = 1;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+            $resId = Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
 
@@ -159,7 +162,7 @@ class TaskController extends Controller
             $ects = 'F';
             $natValue = 0;
 
-            Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
+            $resId = Auth::user()->updRes($request->topic_id, Null, $value, $ects, $natValue, $result, $request->answers,
                 $request->start, $request->duration, $correct, $incorrect);
             Auth::user()->reduceLevel();
             //dd($res2send->topic ? $res2send->topic->name : 'Общий тест');
@@ -173,7 +176,7 @@ class TaskController extends Controller
                 'completed' => 1
             ];
         } else {
-            $arr = ['status' => $result, 'repeat' => $topRep];
+            $arr = ['status' => $result, 'repeat' => $topRep, 'resId' => $resId];
         }
 
         return json_encode($arr);

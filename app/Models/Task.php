@@ -35,6 +35,11 @@ class Task extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function sources()
+    {
+        return $this->belongsToMany(Source::class);
+    }
+
     public static function add($request)
     {
         $task = new static;

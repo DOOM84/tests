@@ -97,6 +97,13 @@
                             Тесты
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{Request::segment(2) == 'sources' ? 'active' : ''}}"
+                           href="{{route('sources.index')}}">
+                            <span data-feather="link"></span>
+                            Ссылки
+                        </a>
+                    </li>
                     {{--<li class="nav-item">
                         <a class="nav-link {{Request::segment(2) == 'categories' ? 'active' : ''}}"
                            href="{{route('categories.index')}}">

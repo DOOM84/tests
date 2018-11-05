@@ -33,6 +33,7 @@
             <table class="table">
                 <thead class="thead-light">
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Вопрос</th>
                     <th scope="col">Языковой уровень</th>
                     <th scope="col">Варианты ответа</th>
@@ -44,6 +45,7 @@
                 @foreach($result->detail->answers as $id)
                     @set($answer, \App\Models\Answer::findOrFail($id))
                     <tr class="{{isset($answer->is_correct) ? 'bg-correct' : 'bg-failed'}}">
+                        <td>{{$loop->iteration}}</td>
                         <td scope="col">
                             {{$answer->task->body}}
                         </td>

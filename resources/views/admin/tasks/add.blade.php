@@ -64,6 +64,15 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <label for="topic">Ссылки</label>
+                <select id="topic" name="sources[]" class="form-control" multiple size='20'>
+                    @foreach($sources->sortBy('url') as $link)
+                        <option value="{{$link->id}}">{{$link->url}}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="checkbox">
                 <label>
                     <input name="status" type="checkbox" value="1"> Опубликовано

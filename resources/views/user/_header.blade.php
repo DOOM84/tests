@@ -48,8 +48,9 @@
 </nav>
 
 <div class="nav-scroller bg-white shadow-sm">
-    <nav class="nav nav-underline">
+    <nav class="nav nav-underline" id="mainNav">
         <a class="nav-link active" href="{{route('user.stats')}}">@lang('page.myStats')</a>
         <a class="nav-link active" href="{{route('user.stats.group')}}">@lang('page.groupStats')</a>
     </nav>
+
 </div>

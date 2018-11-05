@@ -14,18 +14,6 @@
             @guest
                 <a href="{{route('user.tasks')}}" class="btn btn-success m-3"><strong>@lang('page.toTest')</strong></a>
             @else
-                {{--<form action="{{route('user.tasks')}}" method="post">
-                    @csrf
-                    <label for="topic">Choose your level topic:</label>
-                <select id="topic" class="custom-select" name="topic">
-                    @forelse(Auth::user()->level->topics as $topic)
-                        <option  value="{{$topic->id}}">{{$topic->name}} ({{$topic->level->level}})</option>
-                        @empty
-                    @endforelse
-
-                </select>
-                 <button type="submit" class="btn btn-success m-3"><strong>Go to the testing</strong></button>
-                </form>--}}
                 <form action="{{route('user.tasks')}}" method="post">
                     @csrf
                     @set($compl, 0)
