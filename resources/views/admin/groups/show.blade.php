@@ -22,6 +22,7 @@
                 <th>Название</th>
                 <th>Учебное заведение</th>
                 <th>Специальность</th>
+                <th>Доступ для прохождения теста</th>
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>
@@ -34,6 +35,7 @@
                     <td>{{$group->name}}</td>
                     <td>{{isset($group->institute->name) ? $group->institute->name : 'Нет'}}</td>
                     <td>{{isset($group->branch->name) ? $group->branch->name : 'Нет'}}</td>
+                    <td>{{ $group->can_pass ? 'Да' : 'Нет' }}</td>
                     <td>{{ $group->status ? 'Да' : 'Нет' }}</td>
                     <td><a class="btn btn-primary" href="{{route('groups.edit', $group->id)}}">Изменить</a></td>
                     <td>
@@ -62,6 +64,7 @@
                 <th>Название</th>
                 <th>Учебное заведение</th>
                 <th>Специальность</th>
+                <th>Доступ для прохождения теста</th>
                 <th>Опубликовано</th>
                 <th>Изменить</th>
                 <th>Удалить</th>

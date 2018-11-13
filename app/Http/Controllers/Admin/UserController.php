@@ -71,7 +71,7 @@ class UserController extends Controller
         $request['password'] = Hash::make($request->password);
         if (!isset($request['is_admin'])) $request['is_admin'] = 0;
         if (!isset($request['status'])) $request['status'] = 0;
-        if (!isset($request['is_subscr'])) $request['is_subscr'] = 0;
+        if (!isset($request['attempts'])) $request['attempts'] = 0;
         $user = User::create($request->all());
         return redirect(route('users.index'))->with('status', 'Пользователь успешно добавлен');
     }
@@ -148,6 +148,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        $user->results()->each(function ($result) {
+            $result->detail()->delete();
+        });
+        $user->results()->delete();
         $user->delete();
 
         return redirect()->back()->with('status', 'Пользователь успешно удален ');

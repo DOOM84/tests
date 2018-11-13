@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     protected $fillable = [
-        'name', 'status', 'institute_id', 'branch_id'
+        'name', 'status', 'institute_id', 'branch_id', 'can_pass'
     ];
 
     public function users()
@@ -35,6 +35,7 @@ class Group extends Model
     {
         $group = new static;
         if (!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['can_pass'])) $request['can_pass'] = 0;
         $group->fill($request);
         $group->save();
         return $group;
@@ -44,6 +45,7 @@ class Group extends Model
     public function edit($request)
     {
         if (!isset($request['status'])) $request['status'] = 0;
+        if (!isset($request['can_pass'])) $request['can_pass'] = 0;
         $this->fill($request);
         $this->save();
 

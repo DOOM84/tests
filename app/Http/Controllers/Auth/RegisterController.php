@@ -101,6 +101,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'group_id' => $data['group_id'],
             'password' => Hash::make($data['password']),
+            'attempts' => 0
         ]);
     }
 }

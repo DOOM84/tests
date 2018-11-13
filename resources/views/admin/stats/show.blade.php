@@ -39,6 +39,7 @@
                     <th scope="col">Варианты ответа</th>
                     <th scope="col">Ответ студента</th>
                     <th scope="col">Тема</th>
+                    <th scope="col" width="12%">Ссылка</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -78,6 +79,17 @@
                                 </ul>
                             @empty
                                 Нет информации
+                            @endforelse
+                        </td>
+                        <td scope="col">
+                            @forelse($answer->task->sources as $link)
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a class="btn btn-info" href="{{$link->url}}" target="_blank">Ссылка {{$loop->iteration}}</a>
+                                    </li>
+                                </ul>
+                            @empty
+
                             @endforelse
                         </td>
 

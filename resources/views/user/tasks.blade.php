@@ -17,8 +17,6 @@
                 </div>
 
             </div>
-
-            {{--<p class="text-right fixed-bottom" id="demo"></p>--}}
         </div>
         <div class="d-inline-flex float-lg-right text-right"
              style="text-align:right;position: fixed;z-index: 999;right: 1%; bottom: 1%;">
@@ -43,8 +41,6 @@
             @foreach($topic->tasks->shuffle() as $task)
                 <div class="my-3 p-3 bg-white rounded shadow-sm changeBg">
                     <h6 class="border-bottom border-gray pb-2 mb-0">{{$loop->iteration}}. {{$task->body}} </h6>
-                    {{--<div class="media text-muted pt-3">
-                    </div>--}}
                     @foreach($task->answers->shuffle() as $answer)
                         <div class="custom-control custom-radio">
                             <input type="radio" id="{{'el'.$answer->id}}" value="{{$answer->id}}"
@@ -52,18 +48,6 @@
                             <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
                         </div>
                     @endforeach
-
-                    {{--@foreach($task->answers->shuffle() as $answer)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" id="{{'el'.$answer->id}}" value="{{$answer->id}}"
-                                   name="{{'custom'.$task->id}}" class="custom-control-input">
-                            <label class="custom-control-label" for="{{'el'.$answer->id}}">{{$answer->body}}</label>
-                        </div>
-                        @if($answer->is_correct)
-                            @set($rightAns, $rightAns + 1)
-                        @endif
-                    @endforeach--}}
-
                 </div>
             @endforeach
 
@@ -93,51 +77,43 @@
                 'rgb(206, 223, 144)',
                 'rgb(215, 205, 196)',
             ];
-            var oldBackground = '';
-            var iter = 1;
             var bgColor = '';
-            var curCol = '';
+            var curCol = 0;
             $("#mainNav").append("<span class=\"nav-link active\">" + '@lang('page.interface')' + "</span>");
-            for (i = 0; i < colors.length; i++) {
-                $("#mainNav").append("<div class=\"colorTrig color" + iter + "\">" + "</div>");
-                iter++;
-
+            for (var i = 1; i <= colors.length; i++) {
+                $("#mainNav").append("<div class=\"colorTrig color" + i + "\">" + "</div>");
             }
             $('.colorTrig').click(function () {
                 bgColor = $(this).css('backgroundColor');
-                curCol = random(colors.length - 1, 0);
-
                 $('body').removeClass('bg-light');
                 $('body').css('background-color', bgColor);
 
                 $('.changeBg').removeClass('bg-white');
-                if (oldBackground == colors[curCol]) {
-                    curCol = curCol >= 5 ? curCol - 1 : curCol + 1;
-                }
+
                 if (bgColor == colors[curCol]) {
-                    if (oldBackground == 'rgb(255, 255, 255)') {
-                        if (bgColor == colors[curCol]) {
-                            curCol = curCol >= 5 ? curCol - 1 : curCol + 1;
-                        }
-                        $('.changeBg').css('background-color', colors[curCol]);
-                        $('.custom-radio').addClass('radioB');
-                    } else {
-                        $('.changeBg').addClass('bg-white');
-                        $('.custom-radio').removeClass('radioB');
-                    }
-                    oldBackground = $('.changeBg').css('backgroundColor');
+                    $('.changeBg').addClass('bg-white');
+                    $('.custom-radio').removeClass('radioB');
                 } else {
                     $('.changeBg').css('background-color', colors[curCol]);
-                    oldBackground = $('.changeBg').css('backgroundColor');
                     $('.custom-radio').addClass('radioB');
                 }
+                curCol = curCol>=colors.length-1 ? 0 : curCol+1;
             });
-
             var sounds = [
                 new Audio('{{asset('music/Kantata2.mp3')}}'),
                 new Audio('{{asset('music/Moon.mp3')}}'),
-                new Audio('{{asset('music/Franck.mp3')}}'),
-                new Audio('{{asset('music/Rubinstein.mp3')}}')
+                new Audio('{{asset('music/Rubinstein.mp3')}}'),
+                new Audio('{{asset('music/avemaria.mp3')}}'),
+                new Audio('{{asset('music/beeth.mp3')}}'),
+                new Audio('{{asset('music/brahms.mp3')}}'),
+                new Audio('{{asset('music/debussi.mp3')}}'),
+                new Audio('{{asset('music/list.mp3')}}'),
+                new Audio('{{asset('music/mazurka1.mp3')}}'),
+                new Audio('{{asset('music/mazurka2.mp3')}}'),
+                new Audio('{{asset('music/preludia1.mp3')}}'),
+                new Audio('{{asset('music/preludia2.mp3')}}'),
+                new Audio('{{asset('music/preludia4.mp3')}}'),
+                new Audio('{{asset('music/preludia5.mp3')}}'),
             ];
 
             var ind;
@@ -146,7 +122,6 @@
 
             function playSnd() {
                 ind = random(sounds.length - 1, 0);
-                //console.log(ind);
                 sounds[ind].addEventListener('ended', playSnd);
                 sounds[ind].volume = $('#volume').val();
                 sounds[ind].play();

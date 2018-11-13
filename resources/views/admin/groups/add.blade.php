@@ -45,6 +45,11 @@
                     <input name="status" type="checkbox" value="1"> Опубликовано
                 </label>
             </div>
+            <div class="checkbox">
+                <label>
+                    <input name="can_pass" type="checkbox" value="1"> Доступ для прохождения теста
+                </label>
+            </div>
             <div class="form-group text-right">
             <button type="submit" class="btn btn-success">Сохранить группу</button>
             </div>

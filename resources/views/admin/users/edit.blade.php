@@ -26,6 +26,11 @@
                 <input type="email" class="form-control" value="{{$user->email}}" id="email" name="email"
                        placeholder="Email">
             </div>
+            <div class="form-group">
+                <label for="attempts">Попытки</label>
+                <input type="text" class="form-control" value="{{$user->attempts}}" id="attempts" name="attempts"
+                       placeholder="Попытки">
+            </div>
 
             {{--<div class="form-group">
                 <label for="institute">Учебное заведение</label>
