@@ -11,8 +11,8 @@
                 </h2>
 
                 <div class="text-right">
-                    <i data-feather="play" id="play"></i>
-                    <i data-feather="pause" id="pause"></i><br>
+                    <i data-feather="play" id="play" style="cursor: pointer"></i>
+                    <i data-feather="pause" id="pause" style="cursor: pointer"></i><br>
                     <input id="volume" type="range" value="0.75" step="0.1" min="0" max="1">
                 </div>
 
@@ -97,17 +97,12 @@
                     $('.changeBg').css('background-color', colors[curCol]);
                     $('.custom-radio').addClass('radioB');
                 }
-                curCol = curCol>=colors.length-1 ? 0 : curCol+1;
+                curCol = curCol >= colors.length - 1 ? 0 : curCol + 1;
             });
             var sounds = [
-                new Audio('{{asset('music/Kantata2.mp3')}}'),
                 new Audio('{{asset('music/Moon.mp3')}}'),
-                new Audio('{{asset('music/Rubinstein.mp3')}}'),
-                new Audio('{{asset('music/avemaria.mp3')}}'),
-                new Audio('{{asset('music/beeth.mp3')}}'),
-                new Audio('{{asset('music/brahms.mp3')}}'),
-                new Audio('{{asset('music/debussi.mp3')}}'),
-                new Audio('{{asset('music/list.mp3')}}'),
+                new Audio('{{asset('music/dyunah.mp3')}}'),
+                new Audio('{{asset('music/bis.mp3')}}'),
                 new Audio('{{asset('music/mazurka1.mp3')}}'),
                 new Audio('{{asset('music/mazurka2.mp3')}}'),
                 new Audio('{{asset('music/preludia1.mp3')}}'),

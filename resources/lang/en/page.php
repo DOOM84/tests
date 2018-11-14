@@ -85,7 +85,7 @@ return [
     'sendPas' => 'Send Password Reset Link',
     'noEdu' => 'No educational institution',
     'process' => 'Processing ...',
-    'variants' => 'Answers',
+    'variants' => 'Correct answers',
     'link' => 'Link',
     'interface' => 'Interface:',
 

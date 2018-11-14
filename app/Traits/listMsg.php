@@ -59,7 +59,6 @@ trait listMsg
 
         $right5 = [
             'This way',
-            'Вот так.',
             'Right you are',
             'That\'s true.',
             'That\'s it.',
@@ -105,7 +104,7 @@ trait listMsg
         if ($cntAnsw == 49) {
             if ($result >= $cntAnsw - 9 && $result <= $cntAnsw - 5) {
                 $varToEcho = "right$cntAnsw";
-                $toEcho = $$varToEcho [array_rand($$varToEcho)];
+                $toEcho = $$varToEcho[array_rand($$varToEcho)];
 
                 return $toEcho;
             }
