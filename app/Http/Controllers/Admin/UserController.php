@@ -136,6 +136,10 @@ class UserController extends Controller
             $request['password'] = Hash::make($request->password);
             $user->update($request->all());
         }
+        $user->results->each(function ($result) use ($request) {
+            $result->group_id = isset($request->group_id) ? $request->group_id : Null;
+            $result->save();
+        });
         return redirect()->back()->with('status', 'Пользователь успешно изменен ');
     }
 

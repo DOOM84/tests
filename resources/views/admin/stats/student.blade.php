@@ -9,9 +9,11 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
             <li class="breadcrumb-item"><a href="{{route('admin.stats')}}">Статистика</a></li>
-            <li class="breadcrumb-item">
-                <a href="{{route('admin.stats.group', $user->group->id)}}">Группа {{$user->group->name}}</a>
-            </li>
+            @if(isset($user->group->id))
+                <li class="breadcrumb-item">
+                    <a href="{{route('admin.stats.group', $user->group->id)}}">Группа {{isset($user->group->name) ? 'гр. '.$user->group->name : ''}}</a>
+                </li>
+            @endif
             <li class="breadcrumb-item active" aria-current="page">{{$user->name}}</li>
         </ol>
     </nav>
@@ -26,7 +28,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th colspan="4" scope="col"><h5>Статистика студента: {{$user->name}} (гр. {{$user->group->name}})</h5>
+                <th colspan="4" scope="col"><h5>Статистика студента: {{$user->name}} {{isset($user->group->name) ? '(гр. '.$user->group->name.')' : ''}}</h5>
                 </th>
 
             </tr>

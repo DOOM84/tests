@@ -8,11 +8,13 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Панель управления</a></li>
                 <li class="breadcrumb-item"><a href="{{route('admin.stats')}}">Статистика</a></li>
+                @if(isset($result->user->group->id))
                 <li class="breadcrumb-item">
                     <a href="{{route('admin.stats.group', $result->user->group->id)}}">
                         Группа {{$result->user->group->name}}
                     </a>
                 </li>
+                @endif
                 <li class="breadcrumb-item"><a href="{{route('admin.stats.student', $result->user->id)}}">
                         {{$result->user->name}}</a>
                 </li>
