@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Answer;
 use App\Models\Group;
 use App\Models\Result;
 use App\User;
@@ -40,9 +41,17 @@ class StatsController extends Controller
 
     public function show(Result $result)
     {
-        $result->with('detail')->get();
+        //$result->with('detail')->get();
 
-        return view('admin.stats.show', compact('result'));
+        $answers = Answer::whereIn('id', $result->detail->answers)->get();
+        $answers->load([
+            'task',
+            'task.sources',
+            'task.topics',
+            'task.answers',
+        ]);
+
+        return view('admin.stats.show', compact('result', 'answers'));
     }
 
     public function graphStud(User $user)

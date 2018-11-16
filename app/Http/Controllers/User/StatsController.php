@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Answer;
 use App\Models\Result;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 
 class StatsController extends Controller
@@ -33,9 +35,15 @@ class StatsController extends Controller
         if ($result->user->id != Auth::user()->id) {
             return abort('404');
         }
-        $result->with('detail')->get();
-
-        return view('user.ResShow', compact('result'));
+        //$result->with('detail')->get();
+        $answers = Answer::whereIn('id', $result->detail->answers)->get();
+        $answers->load([
+        'task',
+        'task.sources',
+        'task.topics',
+        'task.answers',
+    ]);
+        return view('user.ResShow', compact('result', 'answers'));
     }
 
     public function group()

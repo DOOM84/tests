@@ -43,15 +43,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($result->detail->answers as $id)
-                    @set($answer, \App\Models\Answer::findOrFail($id))
+                @foreach($answers as $answer)
                     <tr class="{{isset($answer->is_correct) ? 'bg-correct' : 'bg-failed'}}">
                         <td>{{$loop->iteration}}</td>
                         <td scope="col">
                             {{$answer->task->body}}
                         </td>
                         <td scope="col">
-                            {{$answer->task->level->level}}
+                            {{$result->level->level}}
                         </td>
                         <td>
                             @forelse($answer->task->answers as $allAnswers)
@@ -66,7 +65,6 @@
                             @endforelse
                         </td>
                         <td scope="col">
-                                {{--<i data-feather="x"></i>--}}
                                 <span class="font-italic">{{$answer->body}}</span>
 
                         </td>
