@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use BadMethodCallException;
+use ErrorException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -72,6 +73,12 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof BadMethodCallException) {
+
+            return response(view('404'), '404');
+
+        }
+
+        if ($exception instanceof ErrorException) {
 
             return response(view('404'), '404');
 

@@ -16,11 +16,13 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         if (!$request->topic || $request->isMethod('get')) return redirect()->route('user.index');
-        if(!Auth::user()->group->can_pass){
-            return redirect()->route('user.index')
-                ->with('error', __('page.access'));
-        }
 
+        if (isset(Auth::user()->group)){
+            if(!Auth::user()->group->can_pass){
+                return redirect()->route('user.index')
+                    ->with('error', __('page.access'));
+            }
+        }
         $topic = Null;
         $tasks = Null;
 

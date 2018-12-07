@@ -34,7 +34,6 @@
             <div class="form-group">
                 <label for="group">Группа</label>
                 <select id="group" name="group_id" class="form-control">
-                    <option value="">Нет</option>
                     @foreach($groups as $group)
                         <option value="{{$group->id}}">{{$group->name}} ({{$group->institute->name}})</option>
                     @endforeach

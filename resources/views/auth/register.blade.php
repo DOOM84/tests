@@ -46,7 +46,6 @@
                         <label for="group_id" class="col-md-4 col-form-label text-md-right">@lang('page.group')</label>
                         <div class="col-md-6">
                         <select id="group_id" name="group_id" class="form-control" required>
-                            <option value=""></option>
                             @foreach($groups as $group)
                                 <option value="{{$group->id}}">{{$group->name}}
                                     ({{isset($group->institute->name) ? $group->institute->name : __('page.noEdu')}})
